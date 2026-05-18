@@ -1,12 +1,14 @@
 ---
-
-## title: Factory Pull — Proceso
-
+title: Factory Pull — Proceso
 date: 2026-05-11
 source: Apuntes Santi + modelo Pull v0 (Hotelbeds referencia, Avoris piloto)
 author: Santiago Patino Serna
 tags: [factory, pull, rebuyers, proceso, v0]
 status: v0
+audience: Pedro (revisa diariamente) · Santi · dev nuevo onboarding
+parent: ../../PLAN.md
+sibling: factory_pull_checklist.md · factory_pull_validaciones.md
+---
 
 # Factory Pull — Proceso
 
