@@ -170,3 +170,21 @@ DROP TRIGGER IF EXISTS connections_updated_at ON connections;
 CREATE TRIGGER connections_updated_at
   BEFORE UPDATE ON connections
   FOR EACH ROW EXECUTE FUNCTION trg_updated_at();
+
+-- ---------------------------------------------------------------------
+-- User factory_reader (SELECT-only) — garantía DB de que el panel
+-- Streamlit NO puede escribir aunque el código intentara.
+-- Las skills (Claude Code) usan el user 'factory' con permisos plenos.
+-- ---------------------------------------------------------------------
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'factory_reader') THEN
+    CREATE ROLE factory_reader WITH LOGIN PASSWORD 'factory_reader_local';
+  END IF;
+END $$;
+
+GRANT CONNECT ON DATABASE factory TO factory_reader;
+GRANT USAGE ON SCHEMA public TO factory_reader;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO factory_reader;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO factory_reader;
+REVOKE INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER
+  ON ALL TABLES IN SCHEMA public FROM factory_reader;
