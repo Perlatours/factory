@@ -1,7 +1,7 @@
 ---
 title: Factory · Plan de Industrialización v2.1 (planta autónoma)
 date: 2026-05-18
-source: Santiago — diseño implementación repo factory/ (Godi.AI/factory)
+source: Santiago — diseño implementación repo Perlatours/factory
 author: Santiago Patino Serna
 tags: [factory, industrializacion, planta, idempotencia, postgres, docker, streamlit, panel-control, skills, claude-code, schema, intake, implementacion]
 status: pendiente-respuesta-pedro-decisiones-criticas
@@ -14,7 +14,7 @@ related:
   - factory_pull/factory_pull_briefing_v0.md
   - factory_pull/factory-pull-plant-diagram.svg
   - factory_push/factory_push_briefing_v0.md
-repo_externo: Godi.AI/factory (remote pendiente Perlatours/factory)
+repo_externo: github.com/Perlatours/factory
 alcance_v0: Pull only en operación; Push schema+seed
 history:
   - v0 (2026-05-15): diseño inicial
@@ -115,7 +115,7 @@ Las validaciones Pull marcan que el controller dedicado no existe en código. **
 
 | # | Decisión | Valor |
 |---|---|---|
-| 1 | Ubicación repo | `~/.../Godi.AI/factory` (remote: `Perlatours/factory`) |
+| 1 | Ubicación repo | Local + remote: `github.com/Perlatours/factory` |
 | 2 | Skills ubicación | `factory/.claude/skills/` (viajan con el repo) |
 | 3 | Docs | `factory/docs/` (copia **congelada** brain v0.1, no symlink) |
 | 4 | SoT vivo | Postgres 17 |
