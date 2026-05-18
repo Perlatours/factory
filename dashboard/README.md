@@ -2,6 +2,8 @@
 
 **NO es BI. Es la pantalla operativa del piso de planta.**
 
+> 📖 Guía completa de qué muestra cada pantalla + workflow developer → [`../docs/USAGE.md`](../docs/USAGE.md)
+
 ## Arrancar
 
 ```bash

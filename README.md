@@ -4,6 +4,10 @@
 **No codifica conectores** — eso se mergea en PerlaHub/PerlaPush (Fase 6).
 **v0 alcance**: Pull only en operación; Push presente en schema/seed para no rehacer.
 
+> 📖 **Cómo usar esto día a día** → [`docs/USAGE.md`](./docs/USAGE.md) — guía para desarrolladores con 9 escenarios concretos (Intake, checklist, HITL, sandbox, mocks, sorpresas, rebobinado, cierre) + qué se ve en el panel tras cada acción.
+>
+> 🏭 **Visión de qué es esto** → [`docs/factory_pull/factory-pull-plant-diagram.svg`](./docs/factory_pull/factory-pull-plant-diagram.svg) (diagrama 1 imagen) + [`PLAN.md`](./PLAN.md) (plan completo).
+
 ## Quickstart
 
 ```bash
