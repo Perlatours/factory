@@ -11,9 +11,9 @@ validator_qa_tecnico: Pedro
 validator_qa_funcional: Eva
 parent: factory_conexiones.md
 related:
-  - factory_pull/factory_pull_briefing_v0.md
-  - factory_pull/factory-pull-plant-diagram.svg
-  - factory_push/factory_push_briefing_v0.md
+  - docs/factory_pull/factory_pull_briefing_v0.md
+  - docs/factory_pull/factory-pull-plant-diagram.svg
+  - docs/factory_push/factory_push_briefing_v0.md
 repo_externo: github.com/Perlatours/factory
 alcance_v0: Pull only en operación; Push schema+seed
 history:
@@ -60,7 +60,7 @@ history:
 
 ## Diagrama de la planta
 
-![Factory Pull · Planta autónoma de fabricación de conexiones](./factory_pull/factory-pull-plant-diagram.svg)
+![Factory Pull · Planta autónoma de fabricación de conexiones](./docs/factory_pull/factory-pull-plant-diagram.svg)
 
 *Para pegar en la pared del equipo técnico. Si entiendes este diagrama, entiendes el plan.*
 
@@ -74,11 +74,11 @@ Tres documentos, en este orden. Cada uno baja un nivel de detalle. **Si solo lee
 
 | # | Documento | Qué responde | Tiempo |
 |---|---|---|---|
-| **1** | [`factory_pull/factory-pull-plant-diagram.svg`](./factory_pull/factory-pull-plant-diagram.svg) (arriba) | "¿Qué es esta planta y cómo se ve?" — Visión completa en una imagen | 2 min |
-| **2** | [`factory_pull/factory_pull_briefing_v0.md`](./factory_pull/factory_pull_briefing_v0.md) | **El día a día operativo**: 11 pasos secuenciales + 4 HITL gates, qué pasa en cada uno, dónde se para, qué se valida. Es cómo se fabrica una conexión, paso a paso. Hotelbeds=referencia, Avoris=piloto. | 15 min |
-| **3** | [`factory_pull/factory_pull_checklist.md`](./factory_pull/factory_pull_checklist.md) | **La matriz técnica**: ~150 filas (operaciones, identificación, precios, cancelación, sesión…) marcadas 🟢 Directo / 🟡 Interpretación / 🔴 Gap. Es lo que se rellena en Fase 1 por cada conexión nueva. | 20 min |
+| **1** | [`docs/factory_pull/factory-pull-plant-diagram.svg`](./docs/factory_pull/factory-pull-plant-diagram.svg) (arriba) | "¿Qué es esta planta y cómo se ve?" — Visión completa en una imagen | 2 min |
+| **2** | [`docs/factory_pull/factory_pull_briefing_v0.md`](./docs/factory_pull/factory_pull_briefing_v0.md) | **El día a día operativo**: 11 pasos secuenciales + 4 HITL gates, qué pasa en cada uno, dónde se para, qué se valida. Es cómo se fabrica una conexión, paso a paso. Hotelbeds=referencia, Avoris=piloto. | 15 min |
+| **3** | [`docs/factory_pull/factory_pull_checklist.md`](./docs/factory_pull/factory_pull_checklist.md) | **La matriz técnica**: ~150 filas (operaciones, identificación, precios, cancelación, sesión…) marcadas 🟢 Directo / 🟡 Interpretación / 🔴 Gap. Es lo que se rellena en Fase 1 por cada conexión nueva. | 20 min |
 
-Análogos para Push: [`factory_push/factory_push_briefing_v0.md`](./factory_push/factory_push_briefing_v0.md) (12 pasos + 5 HITL) y [`factory_push/factory_push_checklist.md`](./factory_push/factory_push_checklist.md) (~170 filas). Push NO está en el v0 operativo (ver §1 decisión #11).
+Análogos para Push: [`docs/factory_push/factory_push_briefing_v0.md`](./docs/factory_push/factory_push_briefing_v0.md) (12 pasos + 5 HITL) y [`docs/factory_push/factory_push_checklist.md`](./docs/factory_push/factory_push_checklist.md) (~170 filas). Push NO está en el v0 operativo (ver §1 decisión #11).
 
 Lo que **este PLAN.md** agrega encima: cómo todo eso vive en un repo operable (Docker + Postgres + panel control + skills Claude Code) y se vuelve idempotente y rebobinable.
 
