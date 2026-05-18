@@ -1,0 +1,293 @@
+<svg viewBox="0 0 1500 1050" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif">
+  <rect width="1500" height="1050" fill="#ffffff"/>
+
+  <!-- HEADER -->
+  <text x="60" y="58" font-size="34" font-weight="700" fill="#1a1a1a" letter-spacing="-0.5">FACTORY PULL</text>
+  <text x="60" y="86" font-size="15" font-weight="400" fill="#555">Planta autónoma de fabricación de conexiones · cada conexión = un coche</text>
+  <text x="60" y="108" font-size="12" fill="#888">Idempotente · rebobinable · trazable cross-conexión</text>
+
+  <line x1="60" y1="128" x2="1440" y2="128" stroke="#e2e2e2" stroke-width="1"/>
+
+  <text x="60" y="158" font-size="14" font-style="italic" fill="#2c5f8d">"Damos al ON. Si el coche sale con tres ruedas, retrocedemos al punto donde se torció. Sin perder lo aprendido."</text>
+
+  <!-- LEGEND -->
+  <g transform="translate(1080, 145)">
+    <text x="0" y="0" font-size="10" font-weight="700" fill="#888" letter-spacing="1">LEYENDA</text>
+    <rect x="0" y="10" width="18" height="14" fill="#eef0f2" stroke="#b8bcc2" stroke-width="1" rx="2"/>
+    <text x="26" y="21" font-size="11" fill="#333">Estación automatizada (skill + agente)</text>
+    <rect x="0" y="32" width="18" height="14" fill="#c0392b" rx="2"/>
+    <text x="26" y="43" font-size="11" fill="#333">Gate HITL — control de calidad humano</text>
+    <rect x="0" y="54" width="18" height="14" fill="#f5f5f5" stroke="#c0c0c0" stroke-width="1" rx="2"/>
+    <text x="26" y="65" font-size="11" fill="#333">Infraestructura de planta (panel, archivo)</text>
+    <line x1="0" y1="83" x2="18" y2="83" stroke="#2c5f8d" stroke-width="2" stroke-dasharray="4,3"/>
+    <text x="26" y="87" font-size="11" fill="#333">Rebobinado posible (idempotencia)</text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- INTAKE (puerta de entrada) -->
+  <!-- ============================================ -->
+  <rect x="60" y="195" width="280" height="100" fill="#fff8e7" stroke="#d4a017" stroke-width="2" rx="6"/>
+  <text x="74" y="217" font-size="10" font-weight="700" fill="#8b6914" letter-spacing="1">FASE 0 · INTAKE</text>
+  <text x="74" y="237" font-size="13" font-weight="600" fill="#1a1a1a">Puerta de entrada a la planta</text>
+  <text x="74" y="257" font-size="11" fill="#555">Solicitud · Doc · Credenciales sandbox</text>
+  <text x="74" y="273" font-size="11" fill="#555">Contacto técnico · Volumen estimado</text>
+  <text x="74" y="289" font-size="10" font-style="italic" fill="#8b6914">Si falta algo → lote rechazado, vuelve al solicitante</text>
+
+  <!-- arrow to line -->
+  <line x1="340" y1="245" x2="378" y2="245" stroke="#1a1a1a" stroke-width="2"/>
+  <polygon points="381,245 373,240 373,250" fill="#1a1a1a"/>
+
+  <!-- ============================================ -->
+  <!-- LÍNEA DE PRODUCCIÓN -->
+  <!-- ============================================ -->
+
+  <!-- Banda decorativa de "cinta transportadora" -->
+  <rect x="385" y="220" width="980" height="220" fill="#fafafa" stroke="#e0e0e0" stroke-width="1" rx="4"/>
+  <text x="395" y="240" font-size="10" font-weight="700" fill="#888" letter-spacing="1">LÍNEA DE PRODUCCIÓN · 8 ESTACIONES</text>
+
+  <!-- ESTACIÓN 1: Análisis -->
+  <rect x="400" y="260" width="140" height="62" fill="#eef0f2" stroke="#b8bcc2" stroke-width="1" rx="4"/>
+  <text x="415" y="282" font-size="20" font-weight="700" fill="#2c5f8d">1</text>
+  <text x="440" y="280" font-size="11" font-weight="600" fill="#1a1a1a">Análisis doc</text>
+  <text x="440" y="294" font-size="9" fill="#666">Endpoints · matriz</text>
+  <text x="440" y="306" font-size="9" fill="#666">Score · carga</text>
+  <text x="440" y="318" font-size="9" fill="#666">~150 filas check</text>
+
+  <!-- HITL 1 -->
+  <line x1="540" y1="291" x2="555" y2="291" stroke="#c0392b" stroke-width="2"/>
+  <rect x="555" y="270" width="42" height="42" fill="#c0392b" rx="3"/>
+  <text x="576" y="288" font-size="11" text-anchor="middle" font-weight="700" fill="#ffffff">HITL</text>
+  <text x="576" y="304" font-size="13" text-anchor="middle" font-weight="700" fill="#ffffff">#1</text>
+
+  <line x1="597" y1="291" x2="612" y2="291" stroke="#1a1a1a" stroke-width="1.5"/>
+  <polygon points="615,291 607,286 607,296" fill="#1a1a1a"/>
+
+  <!-- ESTACIÓN 2: Sandbox -->
+  <rect x="615" y="260" width="120" height="62" fill="#eef0f2" stroke="#b8bcc2" stroke-width="1" rx="4"/>
+  <text x="628" y="282" font-size="20" font-weight="700" fill="#2c5f8d">2</text>
+  <text x="650" y="280" font-size="11" font-weight="600" fill="#1a1a1a">Sandbox</text>
+  <text x="650" y="294" font-size="9" fill="#666">Curl 6 endpoints</text>
+  <text x="650" y="306" font-size="9" fill="#666">Doc vs realidad</text>
+
+  <line x1="735" y1="291" x2="753" y2="291" stroke="#1a1a1a" stroke-width="1.5"/>
+  <polygon points="756,291 748,286 748,296" fill="#1a1a1a"/>
+
+  <!-- ESTACIÓN 3: Mock Tests -->
+  <rect x="756" y="260" width="120" height="62" fill="#eef0f2" stroke="#b8bcc2" stroke-width="1" rx="4"/>
+  <text x="769" y="282" font-size="20" font-weight="700" fill="#2c5f8d">3</text>
+  <text x="791" y="280" font-size="11" font-weight="600" fill="#1a1a1a">Mock Tests</text>
+  <text x="791" y="294" font-size="9" fill="#666">7 casos estándar</text>
+  <text x="791" y="306" font-size="9" fill="#666">Edge cases</text>
+
+  <!-- HITL 2 -->
+  <line x1="876" y1="291" x2="891" y2="291" stroke="#c0392b" stroke-width="2"/>
+  <rect x="891" y="270" width="42" height="42" fill="#c0392b" rx="3"/>
+  <text x="912" y="288" font-size="11" text-anchor="middle" font-weight="700" fill="#ffffff">HITL</text>
+  <text x="912" y="304" font-size="13" text-anchor="middle" font-weight="700" fill="#ffffff">#2</text>
+
+  <line x1="933" y1="291" x2="948" y2="291" stroke="#1a1a1a" stroke-width="1.5"/>
+  <polygon points="951,291 943,286 943,296" fill="#1a1a1a"/>
+
+  <!-- ESTACIÓN 4: Match/Dismatch -->
+  <rect x="951" y="260" width="140" height="62" fill="#eef0f2" stroke="#b8bcc2" stroke-width="1" rx="4"/>
+  <text x="966" y="282" font-size="20" font-weight="700" fill="#2c5f8d">4</text>
+  <text x="990" y="280" font-size="11" font-weight="600" fill="#1a1a1a">Match · Dismatch</text>
+  <text x="990" y="294" font-size="9" fill="#666">Directo · Conocido</text>
+  <text x="990" y="306" font-size="9" fill="#666">· Nuevo (escala)</text>
+
+  <!-- HITL 3 -->
+  <line x1="1091" y1="291" x2="1106" y2="291" stroke="#c0392b" stroke-width="2"/>
+  <rect x="1106" y="270" width="42" height="42" fill="#c0392b" rx="3"/>
+  <text x="1127" y="288" font-size="11" text-anchor="middle" font-weight="700" fill="#ffffff">HITL</text>
+  <text x="1127" y="304" font-size="13" text-anchor="middle" font-weight="700" fill="#ffffff">#3</text>
+
+  <line x1="1148" y1="291" x2="1163" y2="291" stroke="#1a1a1a" stroke-width="1.5"/>
+  <polygon points="1166,291 1158,286 1158,296" fill="#1a1a1a"/>
+
+  <!-- ESTACIÓN 5: Informe -->
+  <rect x="1166" y="260" width="130" height="62" fill="#eef0f2" stroke="#b8bcc2" stroke-width="1" rx="4"/>
+  <text x="1180" y="282" font-size="20" font-weight="700" fill="#2c5f8d">5</text>
+  <text x="1202" y="280" font-size="11" font-weight="600" fill="#1a1a1a">Informe final</text>
+  <text x="1202" y="294" font-size="9" fill="#666">Plan codificación</text>
+  <text x="1202" y="306" font-size="9" fill="#666">Score · Riesgos</text>
+
+  <!-- Línea siguiente fila: arrow down + curve -->
+  <path d="M 1296 291 Q 1335 291 1335 350 Q 1335 400 1296 400 L 1280 400" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+  <polygon points="1280,400 1288,395 1288,405" fill="#1a1a1a"/>
+
+  <!-- ESTACIÓN 6: Codificación -->
+  <rect x="1140" y="370" width="140" height="62" fill="#eef0f2" stroke="#b8bcc2" stroke-width="1" rx="4"/>
+  <text x="1155" y="392" font-size="20" font-weight="700" fill="#2c5f8d">6</text>
+  <text x="1180" y="390" font-size="11" font-weight="600" fill="#1a1a1a">Codificación</text>
+  <text x="1180" y="404" font-size="9" fill="#666">Scaffold + mappers</text>
+  <text x="1180" y="416" font-size="9" fill="#666">Lógica nueva mín.</text>
+
+  <line x1="1140" y1="401" x2="1125" y2="401" stroke="#1a1a1a" stroke-width="1.5"/>
+  <polygon points="1122,401 1130,396 1130,406" fill="#1a1a1a"/>
+
+  <!-- ESTACIÓN 7: E2E -->
+  <rect x="985" y="370" width="140" height="62" fill="#eef0f2" stroke="#b8bcc2" stroke-width="1" rx="4"/>
+  <text x="1000" y="392" font-size="20" font-weight="700" fill="#2c5f8d">7</text>
+  <text x="1025" y="390" font-size="11" font-weight="600" fill="#1a1a1a">Testing E2E</text>
+  <text x="1025" y="404" font-size="9" fill="#666">PerlaHub DEV</text>
+  <text x="1025" y="416" font-size="9" fill="#666">Carga · edges</text>
+
+  <line x1="985" y1="401" x2="970" y2="401" stroke="#1a1a1a" stroke-width="1.5"/>
+  <polygon points="967,401 975,396 975,406" fill="#1a1a1a"/>
+
+  <!-- ESTACIÓN 8: Go-live -->
+  <rect x="830" y="370" width="140" height="62" fill="#eef0f2" stroke="#b8bcc2" stroke-width="1" rx="4"/>
+  <text x="845" y="392" font-size="20" font-weight="700" fill="#2c5f8d">8</text>
+  <text x="870" y="390" font-size="11" font-weight="600" fill="#1a1a1a">Go-live</text>
+  <text x="870" y="404" font-size="9" fill="#666">PROD + monitor</text>
+  <text x="870" y="416" font-size="9" fill="#666">Sorpresas log</text>
+
+  <!-- HITL 4 -->
+  <line x1="830" y1="401" x2="815" y2="401" stroke="#c0392b" stroke-width="2"/>
+  <rect x="773" y="380" width="42" height="42" fill="#c0392b" rx="3"/>
+  <text x="794" y="398" font-size="11" text-anchor="middle" font-weight="700" fill="#ffffff">HITL</text>
+  <text x="794" y="414" font-size="13" text-anchor="middle" font-weight="700" fill="#ffffff">#4</text>
+
+  <!-- arrow left to DoD -->
+  <line x1="773" y1="401" x2="745" y2="401" stroke="#1a1a1a" stroke-width="1.5"/>
+  <polygon points="742,401 750,396 750,406" fill="#1a1a1a"/>
+
+  <!-- DoD -->
+  <rect x="595" y="370" width="150" height="62" fill="#e3f0e3" stroke="#5a8c5a" stroke-width="1.5" rx="4"/>
+  <text x="608" y="390" font-size="10" font-weight="700" fill="#3a5c3a" letter-spacing="1">DoD</text>
+  <text x="608" y="406" font-size="11" font-weight="600" fill="#1a1a1a">Tráfico estable</text>
+  <text x="608" y="420" font-size="9" fill="#3a5c3a">Booking err &lt; threshold</text>
+
+  <!-- Coche terminado -->
+  <line x1="595" y1="401" x2="568" y2="401" stroke="#1a1a1a" stroke-width="1.5"/>
+  <polygon points="565,401 573,396 573,406" fill="#1a1a1a"/>
+  <rect x="430" y="370" width="135" height="62" fill="#ffffff" stroke="#3a5c3a" stroke-width="2" stroke-dasharray="4,2" rx="4"/>
+  <text x="497" y="392" font-size="11" font-weight="700" fill="#3a5c3a" text-anchor="middle">CONEXIÓN LIVE</text>
+  <text x="497" y="408" font-size="10" fill="#3a5c3a" text-anchor="middle">+ ciclo cerrado</text>
+  <text x="497" y="422" font-size="9" fill="#3a5c3a" text-anchor="middle">aprendizaje incorporado</text>
+
+  <!-- ============================================ -->
+  <!-- REBOBINADO (línea punteada azul atrás) -->
+  <!-- ============================================ -->
+  <path d="M 497 370 Q 497 200 470 200 L 470 195" fill="none" stroke="#2c5f8d" stroke-width="2" stroke-dasharray="6,4" opacity="0.55"/>
+  <text x="320" y="186" font-size="10" font-style="italic" fill="#2c5f8d">rebobinado: cualquier estación → cualquier estación anterior</text>
+
+  <!-- Pequeñas flechas de rebobinado entre estaciones -->
+  <path d="M 615 254 Q 575 240 545 254" fill="none" stroke="#2c5f8d" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.5"/>
+  <path d="M 756 254 Q 716 240 686 254" fill="none" stroke="#2c5f8d" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.5"/>
+  <path d="M 951 254 Q 911 240 881 254" fill="none" stroke="#2c5f8d" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.5"/>
+  <path d="M 1166 254 Q 1126 240 1096 254" fill="none" stroke="#2c5f8d" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.5"/>
+
+  <!-- ============================================ -->
+  <!-- INFRAESTRUCTURA DE PLANTA (abajo) -->
+  <!-- ============================================ -->
+  <rect x="60" y="475" width="1380" height="160" fill="#f9f9fb" stroke="#d8d8e0" stroke-width="1" rx="4"/>
+  <text x="76" y="498" font-size="11" font-weight="700" fill="#666" letter-spacing="1">INFRAESTRUCTURA DE PLANTA</text>
+
+  <!-- Postgres -->
+  <rect x="76" y="510" width="200" height="110" fill="#ffffff" stroke="#c0c0c0" stroke-width="1" rx="4"/>
+  <text x="86" y="530" font-size="11" font-weight="700" fill="#2c5f8d">Estado vivo</text>
+  <text x="86" y="546" font-size="10" fill="#1a1a1a">Postgres · 7 tablas</text>
+  <text x="86" y="562" font-size="9" fill="#555">connections · phase_log</text>
+  <text x="86" y="576" font-size="9" fill="#555">hitl_gates · actions</text>
+  <text x="86" y="590" font-size="9" fill="#555">checklist_responses</text>
+  <text x="86" y="604" font-size="9" fill="#555">surprises · metrics</text>
+  <text x="86" y="618" font-size="9" font-style="italic" fill="#888">cada conexión = filas, no archivos</text>
+
+  <!-- Panel control -->
+  <rect x="296" y="510" width="200" height="110" fill="#ffffff" stroke="#c0c0c0" stroke-width="1" rx="4"/>
+  <text x="306" y="530" font-size="11" font-weight="700" fill="#2c5f8d">Panel de control</text>
+  <text x="306" y="546" font-size="10" fill="#1a1a1a">Streamlit · localhost</text>
+  <text x="306" y="562" font-size="9" fill="#555">· Vista general (kanban)</text>
+  <text x="306" y="576" font-size="9" fill="#555">· Por conexión (detalle)</text>
+  <text x="306" y="590" font-size="9" fill="#555">· Métricas</text>
+  <text x="306" y="604" font-size="9" fill="#555">· Aprendizaje cross</text>
+  <text x="306" y="618" font-size="9" font-style="italic" fill="#888">"¿dónde está cada coche?"</text>
+
+  <!-- Estaciones -->
+  <rect x="516" y="510" width="200" height="110" fill="#ffffff" stroke="#c0c0c0" stroke-width="1" rx="4"/>
+  <text x="526" y="530" font-size="11" font-weight="700" fill="#2c5f8d">Estaciones</text>
+  <text x="526" y="546" font-size="10" fill="#1a1a1a">Claude Code skills</text>
+  <text x="526" y="562" font-size="9" fill="#555">factory-status · new · update</text>
+  <text x="526" y="576" font-size="9" fill="#555">checklist · sandbox</text>
+  <text x="526" y="590" font-size="9" fill="#555">mocktests · mismatches</text>
+  <text x="526" y="604" font-size="9" fill="#555">surprise · metric · close</text>
+  <text x="526" y="618" font-size="9" font-style="italic" fill="#888">supervisor: factory-pull</text>
+
+  <!-- Archivo / aprendizaje -->
+  <rect x="736" y="510" width="200" height="110" fill="#ffffff" stroke="#c0c0c0" stroke-width="1" rx="4"/>
+  <text x="746" y="530" font-size="11" font-weight="700" fill="#2c5f8d">Archivo · aprendizaje</text>
+  <text x="746" y="546" font-size="10" fill="#1a1a1a">case_studies/ + catalog/</text>
+  <text x="746" y="562" font-size="9" fill="#555">Mismatches conocidos</text>
+  <text x="746" y="576" font-size="9" fill="#555">Wrappers Core</text>
+  <text x="746" y="590" font-size="9" fill="#555">Templates conector</text>
+  <text x="746" y="604" font-size="9" fill="#555">Skill calibrada (vN)</text>
+  <text x="746" y="618" font-size="9" font-style="italic" fill="#888">la #6 hereda lo de las 5 previas</text>
+
+  <!-- Cross-conexión -->
+  <rect x="956" y="510" width="200" height="110" fill="#ffffff" stroke="#c0c0c0" stroke-width="1" rx="4"/>
+  <text x="966" y="530" font-size="11" font-weight="700" fill="#2c5f8d">Trazabilidad cross</text>
+  <text x="966" y="546" font-size="10" fill="#1a1a1a">checklist_responses index</text>
+  <text x="966" y="562" font-size="9" fill="#555">≥3 previas → auto-clasifica</text>
+  <text x="966" y="576" font-size="9" fill="#555">1-2 → tentativa</text>
+  <text x="966" y="590" font-size="9" fill="#555">0 → flagged HITL #3</text>
+  <text x="966" y="604" font-size="9" fill="#555">% auto crece con N</text>
+  <text x="966" y="618" font-size="9" font-style="italic" fill="#888">propiedad emergente Factory</text>
+
+  <!-- Repos externos -->
+  <rect x="1176" y="510" width="240" height="110" fill="#ffffff" stroke="#c0c0c0" stroke-width="1" rx="4"/>
+  <text x="1186" y="530" font-size="11" font-weight="700" fill="#2c5f8d">Repos externos (fuera planta)</text>
+  <text x="1186" y="548" font-size="10" fill="#1a1a1a">PerlaHub · DEV / PROD</text>
+  <text x="1186" y="562" font-size="9" fill="#555">conector se mergea aquí (F6)</text>
+  <text x="1186" y="582" font-size="10" fill="#1a1a1a">Wrappers Core</text>
+  <text x="1186" y="596" font-size="9" fill="#555">RateKeyBuffer · TimezoneResolver</text>
+  <text x="1186" y="608" font-size="9" fill="#555">PriceChangedTolerance · ...</text>
+  <text x="1186" y="622" font-size="9" font-style="italic" fill="#888">la Factory orquesta, no codifica</text>
+
+  <!-- ============================================ -->
+  <!-- ROLES (abajo derecha) + IDEMPOTENCIA (abajo izquierda) -->
+  <!-- ============================================ -->
+  <rect x="60" y="660" width="660" height="180" fill="#fafafa" stroke="#d8d8d8" stroke-width="1" rx="4"/>
+  <text x="76" y="683" font-size="11" font-weight="700" fill="#666" letter-spacing="1">IDEMPOTENCIA · REBOBINADO</text>
+
+  <text x="76" y="708" font-size="13" font-weight="600" fill="#1a1a1a">"Damos al ON" — cada estación es determinista</text>
+  <text x="76" y="728" font-size="11" fill="#444">· Estado en Postgres, no en memoria del agente</text>
+  <text x="76" y="746" font-size="11" fill="#444">· Artefactos en pilots/&lt;slug&gt;/evidence/ — versionados</text>
+  <text x="76" y="764" font-size="11" fill="#444">· Hasta Fase 6 (codificación) nada toca el código real</text>
+  <text x="76" y="782" font-size="11" fill="#444">· "Coche con tres ruedas" → DELETE filas + relanzar estación N-X</text>
+  <text x="76" y="800" font-size="11" fill="#444">· Lo aprendido en estaciones previas se conserva</text>
+  <text x="76" y="822" font-size="11" font-style="italic" fill="#2c5f8d">Una planta humana no rebobina. Una de agentes sí. Esa es la diferencia.</text>
+
+  <!-- ROLES -->
+  <rect x="740" y="660" width="700" height="180" fill="#fafafa" stroke="#d8d8d8" stroke-width="1" rx="4"/>
+  <text x="756" y="683" font-size="11" font-weight="700" fill="#666" letter-spacing="1">ROLES EN LA PLANTA</text>
+
+  <text x="756" y="708" font-size="12" font-weight="700" fill="#1a1a1a">Francesc</text>
+  <text x="830" y="708" font-size="11" fill="#444">Director de planta · diseña la línea · decide qué se fabrica</text>
+
+  <text x="756" y="728" font-size="12" font-weight="700" fill="#1a1a1a">Santi</text>
+  <text x="830" y="728" font-size="11" fill="#444">Supervisor de línea · opera el panel · promueve Skill vN</text>
+
+  <text x="756" y="748" font-size="12" font-weight="700" fill="#c0392b">Pedro</text>
+  <text x="830" y="748" font-size="11" fill="#444">Control de calidad técnico · HITL #1, #3, #4 · validator de Skill</text>
+
+  <text x="756" y="768" font-size="12" font-weight="700" fill="#c0392b">Eva</text>
+  <text x="830" y="768" font-size="11" fill="#444">Control de calidad funcional · HITL campos nuevos · mapeo hoteles</text>
+
+  <text x="756" y="788" font-size="12" font-weight="700" fill="#1a1a1a">Agente Claude Code</text>
+  <text x="900" y="788" font-size="11" fill="#444">Operario · ejecuta estaciones · trabaja 24/7 · idempotente</text>
+
+  <text x="756" y="808" font-size="12" font-weight="700" fill="#1a1a1a">Solicitante</text>
+  <text x="830" y="808" font-size="11" fill="#444">Quien entrega lote en Intake · puede ser comercial o partner externo</text>
+
+  <text x="756" y="828" font-size="10" font-style="italic" fill="#666">Sin solicitante con doc+sandbox+creds, la planta no admite el lote.</text>
+
+  <!-- BANNER FINAL -->
+  <rect x="60" y="865" width="1380" height="60" fill="#1a1a1a" rx="4"/>
+  <text x="750" y="893" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Una Skill ejecuta una receta. Una Factory fabrica conexiones en serie, mide, aprende, y la #N hereda lo de las N-1 anteriores.</text>
+  <text x="750" y="912" font-size="11" font-style="italic" fill="#bbbbbb" text-anchor="middle">El primer coche es Avoris. La línea se calibra con él. A partir de la #5 la planta funciona como planta.</text>
+
+  <!-- Footer -->
+  <text x="60" y="955" font-size="10" fill="#888">Factory Pull · v2 · 2026-05-15 · Owner: Santi · Validator: Pedro · Director: Francesc</text>
+  <text x="60" y="972" font-size="10" fill="#888">Diagrama de planta — para pegar en la pared del equipo técnico</text>
+</svg>

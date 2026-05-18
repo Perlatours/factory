@@ -1,32 +1,113 @@
 ---
-title: Factory · Plan de Industrialización v2
-date: 2026-05-15
+title: Factory · Plan de Industrialización v2.1 (planta autónoma)
+date: 2026-05-18
+source: Santiago — diseño implementación repo factory/ (Godi.AI/factory)
 author: Santiago Patino Serna
-status: pendiente-aprobacion-arranque
+tags: [factory, industrializacion, planta, idempotencia, postgres, docker, streamlit, panel-control, skills, claude-code, schema, intake, implementacion]
+status: pendiente-respuesta-pedro-decisiones-criticas
 owner: Santi
-validator: Pedro
-parent_brain: brain_sps_perlatours/knowledge/perlatours/arquitectura/factory_conexiones.md
+director: Francesc
+validator_qa_tecnico: Pedro
+validator_qa_funcional: Eva
+parent: factory_conexiones.md
+related:
+  - factory_pull/factory_pull_briefing_v0.md
+  - factory_pull/factory-pull-plant-diagram.svg
+  - factory_push/factory_push_briefing_v0.md
+repo_externo: Godi.AI/factory (remote pendiente Perlatours/factory)
+alcance_v0: Pull only en operación; Push schema+seed
 history:
   - v0 (2026-05-15): diseño inicial
   - v2 (2026-05-15): integra Docker, checklist_responses, dashboard Streamlit, 4 activos, curva aprendizaje, target 2 días
+  - v2.1 (2026-05-18): reframing planta autónoma + Fase 0 Intake gate + panel control + idempotencia explícita + retira estimaciones + 3 decisiones Pedro + roles supervisor/operario + alcance v0 explícito + diagrama SVG
 ---
 
 # Factory · Plan de Industrialización v2
 
-## TL;DR
+## TL;DR — Planta autónoma de fabricación de conexiones
 
-`factory/` orquesta el ciclo de vida de cada conexión nueva (Pull · Push · Espejo · PushOut). **No codifica conectores** — eso vive en repos PerlaHub y PerlaPush. Sí: registra estado, audit, HITL, métricas, **catálogo de aprendizaje cross-conexión**, casos de éxito.
+**Factory Pull/Push NO es un orquestador de tickets ni un BI. Es una planta de fabricación.** Cada conexión nueva = un coche. La línea tiene **Fase 0 Intake + 8 estaciones + 4 HITL** (Pull; Push análogo con 5 HITL). Lo que hace distinta a esta planta —y es su razón de ser— es que **es idempotente y rebobinable**: si el coche sale con tres ruedas (mismatch detectado en E2E, sorpresa en PROD, dato malformado en mock), retrocedemos a la estación donde se torció y reanudamos sin perder lo aprendido en las anteriores. **Una planta humana no rebobina; una de agentes sí.** Esa propiedad —no la automatización en sí— es el activo.
 
-- **SoT vivo**: Postgres 17 en Docker Compose local (7 tablas)
+> *"Damos al ON. Si el coche sale con tres ruedas, retrocedemos al punto donde se torció. Sin perder lo aprendido."*
+
+**Qué hace la planta** (alcance explícito):
+- Fabrica conexiones en serie con un proceso estable
+- Mide cada lote (tiempo, sorpresas, retrabajos)
+- Aprende: la #N hereda catálogo, wrappers, templates y skill calibrada de las N-1 anteriores
+- **NO codifica conectores** — eso se mergea en repos PerlaHub/PerlaPush (estación 6)
+
+**Infraestructura de planta** (lo que sostiene la línea):
+- **Estado vivo**: Postgres 17 en Docker Compose (7 tablas — cada conexión = filas, no archivos)
+- **Panel de control** (no BI): Streamlit local — "¿dónde está cada coche? ¿qué HITL bloquea?"
+- **Estaciones**: ~12 skills Claude Code (`factory-status/new/update/checklist/sandbox/mocktests/mismatches/surprise/metric/close` + supervisores `factory-pull`/`factory-push`)
+- **Archivo + aprendizaje**: `case_studies/` + `catalog/` (mismatches conocidos, wrappers Core, templates, skill vN)
 - **SoT auditable**: `REGISTRY.md` autogenerado + git commits + push `Perlatours/factory`
-- **Vista interactiva**: Streamlit dashboard local (`factory/dashboard/`)
-- **Operación**: ~12 skills Claude Code en `factory/.claude/skills/`
 - **Entornos**: DEV/PROD explícitos por conexión
 
-**Target operativo a partir de conexión #5** (industrial estable):
-- 2 días calendario · ~2h Santi efectivos · 0-1 mismatch genuinamente nuevo · 24h tráfico estable
+**Roles en la planta** (detallados en §8):
+- **Francesc** — Director de planta · diseña línea · decide qué se fabrica
+- **Santi** — Supervisor de línea (NO operario) · mira panel · decide qué conexión avanza · promueve Skill vN
+- **Pedro** — Control de calidad técnico · HITL #1, #3, #4 · validator de Skill · decisiones técnicas finales
+- **Eva** — Control de calidad funcional · HITL campos nuevos · mapeo hoteles
+- **Agente Claude Code** — Operario de skills · ejecuta estaciones cuando el supervisor da orden
+- **Solicitante** — Entrega lote en Intake · comercial interno o partner externo
 
-**Conexión #1 (Avoris) es inversión** que construye los 4 activos (catálogo + wrappers + templates + skill calibrada). 5-7 días, ~6-8h Santi.
+**Alcance v0** (importante para no inflar compromiso): **Pull only en operación**. El schema y seed contemplan también Push (`factory IN ('pull','push','espejo','pushout')`, 170 filas checklist Push pre-seed) para evitar refactor cuando llegue, pero **la Factory no se compromete a arrancar dos verticales en paralelo**. Push se activa cuando Pull esté estable.
+
+**Sobre tiempos**: el tiempo es output empírico de la Factory, no input de este plan. Las primeras conexiones generarán datos reales (horas Santi, días calendario, mismatches nuevos) que poblarán la curva. **No prometemos cifras antes de tener evidencia.** Las únicas magnitudes cuantitativas que sí defendemos son thresholds y reglas (score complejidad 0-3 por eje, booking error rate <4%, niveles de confianza cross-conexión ≥3/1-2/0, N días tráfico estable como umbral DoD).
+
+---
+
+## Diagrama de la planta
+
+![Factory Pull · Planta autónoma de fabricación de conexiones](./factory_pull/factory-pull-plant-diagram.svg)
+
+*Para pegar en la pared del equipo técnico. Si entiendes este diagrama, entiendes el plan.*
+
+Push tendrá un diagrama análogo (5 HITL, 8 estaciones + Modo A/B en HITL #1).
+
+---
+
+## Lecturas en orden para Pedro
+
+Tres documentos, en este orden. Cada uno baja un nivel de detalle. **Si solo lees uno, lee el 1.**
+
+| # | Documento | Qué responde | Tiempo |
+|---|---|---|---|
+| **1** | [`factory_pull/factory-pull-plant-diagram.svg`](./factory_pull/factory-pull-plant-diagram.svg) (arriba) | "¿Qué es esta planta y cómo se ve?" — Visión completa en una imagen | 2 min |
+| **2** | [`factory_pull/factory_pull_briefing_v0.md`](./factory_pull/factory_pull_briefing_v0.md) | **El día a día operativo**: 11 pasos secuenciales + 4 HITL gates, qué pasa en cada uno, dónde se para, qué se valida. Es cómo se fabrica una conexión, paso a paso. Hotelbeds=referencia, Avoris=piloto. | 15 min |
+| **3** | [`factory_pull/factory_pull_checklist.md`](./factory_pull/factory_pull_checklist.md) | **La matriz técnica**: ~150 filas (operaciones, identificación, precios, cancelación, sesión…) marcadas 🟢 Directo / 🟡 Interpretación / 🔴 Gap. Es lo que se rellena en Fase 1 por cada conexión nueva. | 20 min |
+
+Análogos para Push: [`factory_push/factory_push_briefing_v0.md`](./factory_push/factory_push_briefing_v0.md) (12 pasos + 5 HITL) y [`factory_push/factory_push_checklist.md`](./factory_push/factory_push_checklist.md) (~170 filas). Push NO está en el v0 operativo (ver §1 decisión #11).
+
+Lo que **este PLAN.md** agrega encima: cómo todo eso vive en un repo operable (Docker + Postgres + panel control + skills Claude Code) y se vuelve idempotente y rebobinable.
+
+---
+
+## 0. Decisiones críticas pendientes de Pedro
+
+Tres decisiones binarias o casi binarias que **bloquean arranque limpio** y solo Pedro puede cerrar. Cualquier otra decisión técnica que esté a punto de cerrarse sin Pedro, pasarla aquí.
+
+### 0.1 N días de tráfico estable para Definition of Done
+
+El plan asumió 24h para conexiones #5+ y 7d para la #1. Mi inclinación: **7 días para las primeras 10 conexiones, evaluar bajar después**. ¿Validas o pones otro umbral?
+
+→ Esta es la única magnitud "temporal" que se mantiene en el plan: es threshold de calidad, no estimación de duración.
+
+### 0.2 Bug L1 cache TTL 600s sin endpoint de invalidación
+
+Documentado en `factory_pull_validaciones.md` como bug abierto. Dos opciones:
+
+- **(a) Aceptar como gap permanente** → la planta convive con él; las skills `factory-sandbox` y `factory-e2e` documentan "esperar 600s tras cambio config" en sus pasos. Coste: pasos de espera más largos en Fase 7.
+- **(b) Exponer endpoint de invalidación antes de arrancar Avoris** → trabajo backend PerlaHub (no Factory). Coste: bloquea piloto Avoris hasta que esté.
+
+Mi recomendación: (a) para v0 y (b) en backlog. Pero la decisión es tuya.
+
+### 0.3 InsertRateCodeMapping — ¿endpoint real o no existe?
+
+Las validaciones Pull marcan que el controller dedicado no existe en código. **Aclaración importante**: el Mapping de rate codes **no es una estación de la línea de 8** — es un proceso paralelo necesario para que la conexión funcione en producción (lo opera Eva u operativa, con apoyo de Perla Mapeador). Pero la planta depende de que ese endpoint exista para poder cerrar Fase 7/8 sin bloqueo.
+
+¿Cuál es el endpoint real que usamos hoy para cargar rate code mappings? Si no existe en producción, hay que crearlo antes de que Avoris llegue a Fase 7/8.
 
 ---
 
@@ -44,7 +125,7 @@ history:
 | 8 | **Dashboard** | Nivel 1 GitHub `REGISTRY.md` (siempre) + Nivel 2 **Streamlit local** (`factory/dashboard/`) |
 | 9 | Backup | Manual `dump-state.sh` (no cron) — commit periódico en `db/snapshots/` |
 | 10 | Credenciales provider | `.local.env` git-ignored en `pilots/<slug>/inputs/` |
-| 11 | Target operativo | 2 días calendario para #5+ (industrial), 5-7 días para #1 (calibración) |
+| 11 | Alcance v0 | Pull only en operación; Push presente en schema y seed para evitar refactor futuro, NO en operación v0 |
 
 ## 2. Decisiones pendientes (0 críticas)
 
@@ -384,14 +465,18 @@ factory/
 
 ## 8. Roles
 
+**Importante**: separamos explícitamente **supervisión** (qué se fabrica y cuándo, decisiones técnicas finales) de **operación** (ejecutar las estaciones cuando llega la orden). En una planta real son cosas distintas; aquí también.
+
 | Rol | Persona | Responsabilidad |
 |---|---|---|
-| Factory Owner | Santi | Opera skills, promueve versiones, calibra proceso |
-| HITL técnico | Pedro | Aprueba informe, modo A/B, mismatches, go-live |
-| HITL funcional | Eva | Aprueba campos nuevos, mapeo hoteles |
-| Codificador | Pedro / Santi / AIDeveloper | Conector PerlaHub repo o adapter PerlaPush repo |
-| Contacto externo | Vanesa / Graeme / Noemí… | Doc + credenciales sandbox |
-| Operativa post | Eva (mapeo) / Pedro (técnico) | Métricas, sorpresas |
+| **Director de planta** | Francesc | Diseña la línea, decide qué se fabrica, prioriza pipeline |
+| **Supervisor de línea** | Santi | Mira el panel, decide qué conexión avanza/pausa, promueve Skill vN, calibra proceso. **NO es el que ejecuta las skills** |
+| **Operario de skills** | Agente Claude Code | Ejecuta estaciones cuando supervisor da orden; trabaja 24/7; idempotente |
+| **Control de calidad técnico** | Pedro | HITL #1, #3, #4 + validator de Skill. **Decisiones técnicas siguen siendo suyas**, no se delegan al agente |
+| **Control de calidad funcional** | Eva | HITL campos nuevos, mapeo hoteles, decisiones sobre extender contenedor canónico |
+| **Codificador** | Pedro / AIDeveloper | Conector PerlaHub repo o adapter PerlaPush repo (Fase 6, fuera de la planta) |
+| **Contacto externo** | Vanesa / Graeme / Noemí… | Doc + credenciales sandbox; entrega lote en Intake |
+| **Operativa post** | Eva (mapeo) / Pedro (técnico) | Métricas, sorpresas, mantenimiento conexión live |
 
 ---
 
@@ -400,7 +485,7 @@ factory/
 | Skill | Comando ejemplo | Hace |
 |---|---|---|
 | `factory-status` | `/factory-status [slug] [--filter ...]` | Lee DB, imprime tabla. Detalle si slug |
-| `factory-new` | `/factory-new acme --type pull --contact "..."` | INSERT connection + 4 hitl_gates + mkdir + commit |
+| `factory-new` | `/factory-new acme --type pull --contact "..." --volume "..." --doc-url ... --sandbox-curl ...` | **Valida 4 criterios Intake (Fase 0)** → si OK: INSERT connection (current_phase=1, status=active) + 4 hitl_gates + mkdir + commit. Si KO: INSERT con status='rejected_intake' + notas qué falta. |
 | `factory-update` | `/factory-update acme --phase 2 \| --hitl-approve N \| --action deploy --env perlahub-dev` | UPDATE + INSERT log/action + regen REGISTRY + commit |
 | `factory-checklist` | `/factory-checklist mark acme --row X --class Y \| diff \| finalize \| patterns <row>` | UPSERT en checklist_responses, regen MD, cross-learn |
 | `factory-sandbox` | `/factory-sandbox validate acme` | Claude lanza 6 endpoints en paralelo via curl, captura, compara doc |
@@ -416,11 +501,40 @@ factory/
 
 ## 10. Fases con entorno explícito
 
-### Pull (8 fases + 4 HITL)
+### 10.0 Fase 0 — Intake (puerta de entrada · NO es precondición implícita)
+
+**El proceso es agnóstico a quién solicita** (comercial interno, partner externo, prospecto). Lo que importa es si el lote cumple los 4 criterios. Sin los 4, **el lote no entra a la línea** y vuelve al solicitante.
+
+**Criterios de aceptación de lote** (mínimo, los 4 obligatorios):
+
+| # | Criterio | Forma de verificarlo |
+|---|---|---|
+| 1 | **Documentación técnica accesible** | Swagger / Postman collection / PDF / ejemplos request-response |
+| 2 | **Credenciales sandbox válidas y probadas** | `curl` básico al endpoint de auth o salud responde |
+| 3 | **Contacto técnico identificado y responsivo** | Nombre + email + último contacto < 7 días |
+| 4 | **Volumen estimado declarado** | nº hoteles · clientes · hoteles/request · frecuencia |
+
+**Outcomes posibles**:
+- **Aceptado** → `connections.current_phase = 1`, arranca línea
+- **Rechazado** → `connections.status = 'rejected_intake'` (nuevo valor permitido) + `notes` con qué falta; queda registrado para métrica "tiempo entre solicitud y arranque real"
+- **Hold** → `status = 'awaiting_intake'` cuando faltan inputs pero hay compromiso de aportarlos (timeout configurable)
+
+**Skill operadora**: `factory-intake` (o sub-comando de `factory-new`):
+
+```
+/factory-new acme --type pull --contact "Vanesa <v@avoris>" --volume "200 htls/2 clients/50 htls-req/diaria"
+  ↳ valida 4 criterios
+  ↳ si OK: INSERT connections (current_phase=1, status='active')
+  ↳ si KO: INSERT connections (status='rejected_intake', notes='falta sandbox creds + doc accesible')
+```
+
+**Por qué Fase 0 importa** — sin esta puerta, la planta se atasca a mitad de línea por inputs que debieron exigirse antes de empezar. La métrica "tiempo entre solicitud y arranque real" es input directo de calidad comercial.
+
+### 10.1 Pull (Fase 0 Intake + 8 estaciones + 4 HITL)
 
 | Fase | Acción | Entornos | action_type |
 |---|---|---|---|
-| 0 | Inputs (doc, creds sandbox) | provider-sandbox | — |
+| **0** | **Intake — 4 criterios lote** | — | `intake_validate` |
 | 1 | Análisis doc + checklist 🟢🟡🔴 | (doc) | — |
 | 2 | Sandbox validation | provider-sandbox **+ perlahub-dev** | `sandbox_validate` |
 | 3 | Mock Tests 7 casos | provider-sandbox + perlahub-dev | `mock_test` |
@@ -431,9 +545,22 @@ factory/
 | 8 | Go-live PROD | **perlahub-prod** + provider-prod | `deploy` + `prod_smoke` |
 | DoD | Métricas estables | perlahub-prod | `metric_collect` |
 
-### Push (8 fases + 5 HITL)
+### 10.2 Push (Fase 0 Intake + 8 estaciones + 5 HITL)
 
-Análogo sustituyendo `perlahub-*` → `perlapush-*`. HITL #1 extra al inicio: clasificar Modo A/B.
+Análogo sustituyendo `perlahub-*` → `perlapush-*`. HITL #1 extra al inicio: clasificar Modo A/B. Intake en Push exige además declarar si el channel hará webhook (Modo B típico) o consumirá nuestra API (Modo A), porque condiciona la documentación que ellos deben aportar.
+
+### 10.3 Espejo (Fase 0 Intake + 5 estaciones + 1 HITL)
+
+Intake adapta criterio 2: en vez de "sandbox válida" pide **logs reales del cliente conectado a TGX** (escenario A/B/C). Sin logs, el lote no entra.
+
+### Schema impact — añadir a `connections.status` enum
+
+```sql
+-- Extender CHECK constraint si lo hay, o documentar valores válidos:
+-- 'active' | 'dormant' | 'done' | 'dropped'
+--   + 'rejected_intake'  ← lote no cumplió 4 criterios
+--   + 'awaiting_intake'  ← inputs pendientes con compromiso
+```
 
 ### Espejo (5 fases + 1 HITL)
 
@@ -539,17 +666,55 @@ Fila `rate_key_ttl` en AcmeBeds (nueva):
 - 1-2 previas → **tentativa** (humano revisa)
 - 0 previas → **flagged** (genuinamente nueva, HITL #3 obligatorio)
 
-→ El % de filas auto-clasificadas crece con cada conexión: #1 = 0%, #6 = 92%, #20 = 99%.
+→ El % de filas auto-clasificadas crece con cada conexión. Sin compromiso de porcentajes concretos: la magnitud emerge con los datos reales.
 
 ---
 
-## 14. Dashboard (2 niveles)
+## 13bis. Idempotencia y rebobinado (la propiedad que justifica la planta)
 
-### Nivel 1: GitHub web (siempre, cero infra)
+El plan ya tiene los ingredientes (estado en Postgres, artefactos en `pilots/<slug>/`, código real no se toca hasta Fase 6) pero hay que **nombrar la propiedad** explícitamente — porque es lo que justifica que esto sea una planta autónoma y no "solo skills con UI".
 
-`REGISTRY.md` renderizado en GitHub. Pedro/Eva/Francesc consultan sin Claude Code.
+**Reglas de la propiedad**:
 
-### Nivel 2: Streamlit local (`factory/dashboard/`)
+1. **Cada estación es determinista** — mismo input produce mismo output (la skill operadora hace queries SQL y llamadas HTTP idempotentes; nada de estado oculto).
+2. **El estado vive en Postgres, no en memoria del agente** — si la sesión Claude muere a mitad de estación 3, otra sesión retoma desde la última fila escrita en `phase_log`/`actions`/`checklist_responses`.
+3. **Artefactos en `pilots/<slug>/evidence/`** — versionados en git; los outputs de cada estación quedan congelados para auditoría posterior y para alimentar el rebobinado.
+4. **Hasta Fase 6 (Codificación) la línea NO toca el código real** — todo lo que ocurre en Fases 0-5 (intake, análisis, sandbox, mocks, mismatches, informe) es papel + DB. Rebobinar de Fase 5 a Fase 2 es barato.
+5. **"Coche con tres ruedas"** — si en Fase 5 (informe) descubrimos un mismatch que debió clasificarse en Fase 4, hacemos:
+   ```sql
+   DELETE FROM checklist_responses
+   WHERE connection_id = X AND section IN ('D','E');
+   UPDATE connections SET current_phase = 4 WHERE id = X;
+   INSERT INTO phase_log (connection_id, from_phase, to_phase, actor, notes)
+   VALUES (X, 5, 4, 'Santi', 'Rebobinado: missing rate_breakdown row');
+   ```
+   Las filas de fases anteriores (sandbox validation, mocks) **se conservan** — lo aprendido no se pierde.
+6. **Tras Fase 6**, rebobinar implica además **revertir PR de PerlaHub** — más caro pero documentado: skill `factory-rollback` registra `actions(action_type='rollback', target_env='perlahub-dev/prod')` + actualiza `dev_status='rolled_back'`. La línea sabe que hay que repetir Fase 6 con commit fresco.
+
+**Una planta humana no rebobina; una de agentes sí.** Sin esta propiedad, no hay industrialización — sería solo automatización de pasos sueltos. Con ella, el coste marginal de rectificar es bajo y eso permite experimentar más en cada conexión.
+
+---
+
+## 14. Panel de control de la planta (NO es BI)
+
+El dashboard **no es accesorio**. Si por cualquier razón hay que recortar alcance, esto **NO se recorta**. Sin panel, el estado de la planta solo es legible para quien sepa abrir el repo y leer SQL — la planta deja de ser visible para el equipo y deja de funcionar como planta.
+
+**Rol real**: panel operativo de la planta. El equipo abre la URL y ve:
+- Dónde está cada conexión (qué estación)
+- Qué HITL está bloqueando y a quién espera
+- Qué estación está esperando input (sandbox provider caído, doc incompleto…)
+- Dónde hay sorpresas sin resolver
+- Qué tendencias hay cross-conexión
+
+**No es BI** (no es análisis ex post de KPIs comerciales). Es vista en vivo del piso de planta — análogo a la pantalla de turno en una fábrica real.
+
+### Nivel 1 · GitHub `REGISTRY.md` (siempre, cero infra)
+
+Renderizado en GitHub. Pedro/Eva/Francesc consultan sin Claude Code. Tabla con: slug, factory, fase actual, último HITL, owner, env DEV/PROD, gap, última acción.
+
+Es el panel "de pasillo" — para quien no tiene tiempo de abrir Streamlit.
+
+### Nivel 2 · Streamlit local — panel operativo (`factory/dashboard/`)
 
 Patrón confirmado en docs Streamlit oficiales:
 
@@ -583,59 +748,60 @@ password = "factory_local"
 
 (`secrets.toml` real es git-ignored)
 
-**4 pantallas**:
-1. **Vista general**: kanban por fase + filtros (factory, modo, owner, gap DEV/PROD)
-2. **Por conexión**: timeline + actions + checklist drill-down + sorpresas + métricas
-3. **Métricas**: error rates vs targets + tiempo calendario por fase (heatmap)
-4. **Aprendizaje**: Anexo D consolidado + P/D decisions + top filas problemáticas cross-conexión
+**4 pantallas** (orden de prioridad operativa):
+
+1. **Piso de planta** (vista principal): kanban por estación con cada conexión como tarjeta. Filtros: factory, modo, owner, gap DEV/PROD. **Banner rojo arriba**: HITLs pendientes con tiempo de espera. Indicador visual: estación esperando input externo (provider sandbox caído, contacto sin respuesta).
+2. **Por conexión** (drill-down): timeline + actions + checklist drill-down + sorpresas + métricas + decisión "qué le falta a este coche para avanzar".
+3. **Aprendizaje cross-conexión**: Anexo D consolidado + P/D decisions + filas con mayor tasa 🔴 cross-conexión + wrappers más reutilizados. **Esta pantalla es la que más crece con N**.
+4. **Métricas**: error rates vs targets + tiempo calendario por fase (heatmap) — usar SOLO con datos reales (≥5 conexiones cerradas); antes está vacía y eso está bien.
 
 Lanzamiento: `cd dashboard && streamlit run app.py` → http://localhost:8501
 
+**Compromiso**: el panel forma parte del v0 mínimo. No es Fase 4 ni "siguiente sesión". Sin panel, no hay v0.
+
 ---
 
-## 15. Curva de aprendizaje + target operativo
+## 15. Curva de aprendizaje (cualitativa)
 
-| Conexión | Días | Horas Santi | Catálogo | Mismatches nuevos | Líneas código |
-|---|---|---|---|---|---|
-| **#1 Avoris** (calibra) | 5-7 | ~6-8h | 0 entradas | 4 | ~800 |
-| **#2** (1ª iteración) | 3 | ~3-4h | 5-10 | 2-3 | ~200 |
-| **#3-4** (afinando) | 2-3 | ~2h | 15-25 | 1-2 | ~80 |
-| **#5+** (industrial) | **2** | **~2h** | 30+ | 0-1 | ~30 |
-| **#20** (estable) | 1-2 | ~1.5h | 80+ | 0 | ~10 |
+Esperamos curva decreciente: cada conexión cuesta menos que la anterior porque los 4 activos (catálogo + wrappers + templates + skill calibrada) absorben trabajo. **La magnitud y velocidad de la curva se determina con datos reales tras los primeros cierres** — no comprometemos cifras antes de tener evidencia.
 
-**KPI Factory funciona**: `horas Santi conexión N+1 < horas Santi conexión N` durante #2-#10.
+**KPI cualitativo Factory funciona**: `esfuerzo conexión N+1 < esfuerzo conexión N` durante las primeras ~10 conexiones. Si no se observa, la planta no está funcionando y revisamos.
 
-**Cuello duro irreducible** (incluso #20):
-- 24h tráfico estable post go-live (factory madura) / 7d (factory naciente)
+**Cuellos duros irreducibles** (orden cualitativo, sin números):
+- Tráfico estable post go-live (umbral DoD, ver §0.1 pendiente Pedro)
 - Pedro disponibilidad async (mitigable con bloque agendado misma jornada)
 - Ventana deploy PROD según política Perlatours
 
-**Situaciones que justifican días extra**:
-- Sandbox provider falla / no responde → +1-3d
-- Mismatch nuevo gordo arquitectónico → +1d
-- Provider pide extender contenedor canónico → +1-7d
-- Smoke PROD falla → rollback + debug → +1-2d
-- Score ≥12 alta complejidad genuina → +1-3d
-- Auth exótica (SOAP+WS-Security, mTLS custom) → +1-2d
+**Categorías de situaciones que requieren tiempo extra** (sin estimación numérica — depende de cada caso):
+- Sandbox provider falla / no responde
+- Mismatch nuevo gordo arquitectónico
+- Provider pide extender contenedor canónico
+- Smoke PROD falla → rollback + debug
+- Score alto de complejidad genuina
+- Auth exótica (SOAP+WS-Security, mTLS custom)
+
+El tracking de cuál de estas categorías aparece en cada conexión real va a `surprises` + métricas, y poblará la curva con datos reales.
 
 ---
 
-## 16. Plan de implementación (6 fases · ~2 sesiones)
+## 16. Plan de implementación (orden, sin estimaciones temporales)
 
-### Fase 0 — Infra Docker + Postgres (20 min)
+El orden importa más que los tiempos. Cada paso se da cuando el anterior está verificado.
+
+### Paso A — Infra Docker + Postgres
 - [ ] Crear `docker-compose.yml` (postgres:17-alpine + healthcheck `pg_isready`)
 - [ ] `db/schema.sql` con 7 tablas
 - [ ] `scripts/init-db.sh` (docker compose up + verifica)
 - [ ] `docker compose up -d` + verificar `psql -h localhost -p 5433 -U factory -d factory -c '\dt'`
 
-### Fase 1 — Esqueleto repo (30 min)
+### Paso B — Esqueleto repo
 - [ ] `.gitignore` (incluye `*.local.*`, `.streamlit/secrets.toml`)
 - [ ] `config/environments.yml`
 - [ ] `scripts/`: `dump-registry.sh`, `dump-state.sh`, `dump-pilot.sh`
 - [ ] `templates/{pull,push,espejo}/pilot-skeleton/` con archivos MD plantilla
 - [ ] `catalog/` con `decisions-p1-p6.md`, `decisions-d1-d6.md`, `known-mismatches-*.md` vacíos v0, `wrappers-pull.md` vacío
 
-### Fase 2 — Seed checklist + 9 candidatos (30 min)
+### Paso C — Seed checklist + candidatos
 - [ ] `db/seed-checklist-rows.sh` parsea `docs/factory_pull_checklist.md` y `docs/factory_push_checklist.md` → INSERT catálogo de filas estándar (sin connection_id, son template)
 - [ ] `db/seed.sql` con los 9 candidatos reales:
   - Avoris Pull, SiteMinder Push, GNA Push, Hotelbeds Pull, Welcomebeds Espejo,
@@ -643,36 +809,39 @@ Lanzamiento: `cd dashboard && streamlit run app.py` → http://localhost:8501
 - [ ] Para cada uno: INSERT connection + hitl_gates pendientes según fase actual estimada
 - [ ] `./scripts/dump-registry.sh` → primer `REGISTRY.md`
 
-### Fase 3 — Skills v0 CRUD (1-2h)
+### Paso D — Skills v0 CRUD (mínimo Pull operable)
 - [ ] `factory-status/SKILL.md`
-- [ ] `factory-new/SKILL.md` (con creación pilots/ + copia template + INSERT)
+- [ ] `factory-new/SKILL.md` (incluye validación 4 criterios Intake Fase 0 + pilots/ + copia template + INSERT)
 - [ ] `factory-update/SKILL.md` (fase, HITL, action --env/--outcome/--evidence)
 - [ ] `factory-checklist/SKILL.md` (mark, finalize, diff, patterns)
 - [ ] `factory-surprise/SKILL.md`
 - [ ] `factory-metric/SKILL.md`
 - [ ] Test E2E: cambiar Avoris fase 1 → 2 + mark 5 filas checklist
 
-### Fase 3.5 — Dashboard Streamlit (1h)
+### Paso E — Panel de control Streamlit (NO opcional, NO posponible)
 - [ ] `dashboard/requirements.txt` (streamlit, psycopg2-binary, pandas, plotly)
-- [ ] `dashboard/app.py` con 4 pantallas
+- [ ] `dashboard/app.py` con 4 pantallas (piso de planta primero)
 - [ ] `.streamlit/secrets.toml.example`
-- [ ] Test: `streamlit run dashboard/app.py` → 4 pantallas funcionales
+- [ ] Test: `streamlit run dashboard/app.py` → 4 pantallas funcionales, banner HITLs visible
 
-### Fase 4 — Skills operativas (iter 2, 2-3h, próxima sesión)
+### Paso F — Skills operativas Pull
 - [ ] `factory-sandbox/SKILL.md` (curl paralelo 6 endpoints, captura, compara doc)
-- [ ] `factory-mocktests/SKILL.md` (7 casos Pull / 10 casos Push)
+- [ ] `factory-mocktests/SKILL.md` (7 casos Pull)
 - [ ] `factory-mismatches/SKILL.md` (classify contra catálogo)
 - [ ] `factory-pull/SKILL.md` orquesta Fases 1-5
-- [ ] `factory-push/SKILL.md` análogo
 - [ ] `factory-close/SKILL.md` (DoD + case_study + consolida)
 - [ ] Piloto real: correr `factory-pull avoris` Fase 1 (con catálogo vacío v0)
 
-### Fase 5 — Commit inicial + push (15 min)
+### Paso G — Commit inicial + push
 - [ ] Verificar `.gitignore` cubre todo lo sensible
 - [ ] Commit "factory v0 bootstrap"
 - [ ] Push `Perlatours/factory`
 
-**Total estimado**: ~5-7h de trabajo Santi+Claude para Fases 0-3.5. Fase 4 es siguiente sesión.
+### Paso H — Push (cuando Pull esté estable, NO en v0)
+- [ ] `factory-push/SKILL.md` análogo (170 filas checklist Push activadas)
+- [ ] Piloto SiteMinder
+
+**No prometemos un tiempo total**. El tiempo será lo que tarde, y será dato real para la curva.
 
 ---
 
@@ -798,7 +967,17 @@ Cuerpo del SKILL.md en markdown libre. Patrones:
 
 - **v0 (2026-05-15)**: diseño inicial, decisiones pendientes
 - **v2 (2026-05-15)**: integra Docker, `checklist_responses`, dashboard Streamlit, 4 activos, curva aprendizaje, target 2 días. Investigación Claude Code skills + Postgres Docker + Streamlit incorporada
-- Próximo: tras Fase 5 + primer ciclo Avoris
+- **v2.1 (2026-05-18)** — reframing planta + 9 ajustes Santi:
+  1. TL;DR reescrito con metáfora "planta autónoma de fabricación de conexiones" (cada conexión = un coche)
+  2. Fase 0 Intake elevada a gate explícito con 4 criterios y status `rejected_intake`/`awaiting_intake`
+  3. §14 Dashboard reescrita como "panel de control de la planta" (NO BI, NO recortable)
+  4. §13bis nueva: propiedad idempotencia/rebobinado explícita con ejemplo SQL DELETE+phase_log
+  5. Estimaciones temporales retiradas (TL;DR target, decisión #11 target, §15 tabla curva, §16 tiempos por fase, §15 "+1-3d" en situaciones extra). Se mantienen thresholds (score 0-3, booking err <4%, niveles confianza, N días DoD).
+  6. Nueva §0 "Decisiones críticas pendientes de Pedro" con 3 preguntas binarias (N días DoD, L1 cache TTL bug, InsertRateCodeMapping endpoint real)
+  7. §8 Roles separados: Supervisor (Santi, NO operario) vs Operario (agente) vs QA técnico (Pedro) vs QA funcional (Eva) vs Director (Francesc)
+  8. Alcance v0 explícito: Pull only en operación; Push presente en schema/seed para no rehacer estructura, pero NO operativa en v0
+  9. SVG diagrama de planta añadido (`factory_pull/factory-pull-plant-diagram.svg`), referenciado desde TL;DR
+- Próximo: tras Pedro responde §0 (3 decisiones) + Paso A bootstrap
 
 Sources investigación v2:
 - [Claude Code Skills docs (anthropic)](https://code.claude.com/docs/en/skills)

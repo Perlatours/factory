@@ -1,0 +1,34 @@
+# Factory environments catalog
+# Credenciales sensibles → config/environments.local.yml (git-ignored)
+# Credenciales provider → pilots/<slug>/inputs/03-credentials.local.env
+
+environments:
+  perlahub-dev:
+    type: perlahub
+    stage: dev
+    base_url: https://dev.api.perlatours.com
+    audit_api: https://dev.api.perlatours.com/PerlaAdmin/
+    branch: dev
+
+  perlahub-prod:
+    type: perlahub
+    stage: prod
+    base_url: https://api.perlatours.com
+    audit_api: https://api.perlatours.com/PerlaAdmin3/
+    branch: main
+    db_host: 101.46.37.235:5432
+
+  perlapush-dev:
+    type: perlapush
+    stage: dev
+    base_url: https://dev.push.perlatours.com
+    masters_api: https://dev.push.perlatours.com/masters/
+
+  perlapush-prod:
+    type: perlapush
+    stage: prod
+    base_url: https://push.perlatours.com
+    masters_api: https://push.perlatours.com/masters/
+
+# Sufijos provider-<slug>-{sandbox,prod} se auto-pueblan desde:
+#   pilots/<slug>/inputs/03-credentials.local.env

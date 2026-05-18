@@ -1,0 +1,36 @@
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Secrets / credenciales
+*.local.env
+*.local.yml
+**/.streamlit/secrets.toml
+config/environments.local.yml
+pilots/**/inputs/*.local.env
+pilots/**/inputs/credentials*
+
+# Python / venv
+__pycache__/
+*.pyc
+.venv/
+venv/
+.python-version
+
+# Streamlit cache
+.streamlit/cache/
+
+# Logs y temp
+*.log
+tmp/
+.tmp/
+
+# Postgres dumps brutos (los snapshots útiles van a db/snapshots/)
+*.dump
+*.tar
+
+# Archivos de referencia comprimidos (Archive.zip ya en repo, no nuevos)
+*.zip
+!Archive.zip
