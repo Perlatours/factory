@@ -1,11 +1,11 @@
 ---
 title: Factory Pull — Checklist rápida para evaluar un proveedor nuevo
 date: 2026-05-12
-status: v2
+status: v3
 audience: Santiago / lead técnico decidiendo si y cómo conectar un rebuyer
 parent: factory_pull_briefing_v0.md
 sibling: factory_pull_validaciones.md (referencia técnica detallada)
-history: v1 12-may (alto nivel); v2 12-may (granular: unidades, formatos, variantes)
+history: v1 12-may (alto nivel); v2 12-may (granular: unidades, formatos, variantes); v3 18-may (correcciones Pedro — modelo canónico PerlaHub: global, no por hotel; amount no percent; refundable flag general; sin flag modificable; dispo/restricciones son PUSH)
 ---
 
 # Factory Pull — Checklist rápida
@@ -45,16 +45,18 @@ Cómo identifica el proveedor sus entidades — esto define el trabajo de mappin
 | Entidad | Lo que pide PerlaHub | Variantes posibles del proveedor |
 |---------|------------------------|------------------------------------|
 | Hotel ID | Código estable y único | Propio (string) / GIATA / IATA / múltiples IDs (EPS vs Content como Expedia) / changes over time |
-| Room code | Estable + único por hotel | Propio / mapping interno cambia / regenerado por sync |
+| Room code | Estable + identificable — **cómo se definen** las rooms para poder mapearlas (PerlaHub es global; NO requiere unicidad por hotel) | Propio / en detalle de hotel / endpoint dedicado / mapping interno cambia / regenerado por sync |
 | Rate code | Estable | Propio / por canal / por mercado / por fecha |
 | Meal plan code | Estandarizable a `BB/HB/FB/AI/RO/UAI/Soft-AI` | Códigos OTA (BB/HB…) / descripciones free-text / multilingual / add-ons mezclados como meals (caso Expedia bug) |
-| Currency | ISO 4217 por hotel | Por hotel / por rate / por reserva / multi-currency mismo rate |
+| Currency | ISO 4217 (PerlaHub **NO fija moneda por hotel**) | Por hotel / por rate / por reserva / multi-currency mismo rate |
 | Country code | ISO 3166-1 alpha-2 | Propio / ISO-2 / ISO-3 / inferido por lat-lng |
 | Language code | ISO 639-1 (`es`, `en`, `fr`) para textos | Lista propia / ISO / sin lista (un solo idioma) |
 
 🟢 / 🟡 / 🔴 por cada fila.
 
 > **Decisión P1**: los **nombres** hotel/room/meal/amenity se IGNORAN del provider — PerlaHub usa siempre el Inventory local. Solo los **códigos** importan para mapping.
+>
+> **Corrección Pedro (rev. 18-may)**: PerlaHub es un sistema **global**. (1) No le concierne que las rooms sean únicas por hotel — lo que necesita es saber **cómo las define el proveedor** (en el detalle del hotel o en endpoint dedicado) para poder traducirlas y completar mapeos. (2) No espera una **moneda concreta por hotel**; la tabla original lo sugería y es incorrecto.
 
 ---
 
@@ -62,19 +64,21 @@ Cómo identifica el proveedor sus entidades — esto define el trabajo de mappin
 
 | Campo | Qué pide PerlaHub | Variantes del proveedor |
 |-------|---------------------|---------------------------|
-| `rateKey` | Token opaco para Prebook/Book | string / UUID / firmado / con TTL embebido |
+| `rateKey` (= identificador de disponibilidad reservable) | Dato que **identifica una disponibilidad concreta** para Prebook/Book — un "ID" por room o por opción reservable. El nombre "rateKey" es heredado y puede confundir | string / UUID / firmado / con TTL embebido |
 | Precio: **modelo declarado** | Net / Commissionable / PVP | declarado / hay que inferir / mezclados |
-| Precio: granularidad | `total` + `perNight` por ocupación | total solo / per-night solo / per-room / per-pax |
+| Precio: granularidad | `total` + precio **por room** (PerlaHub **NO pide precio por noche**) | total solo / per-night solo / per-room / per-pax |
 | Taxes | Separadas vs incluidas + tipo (VAT, city tax) | incluidas / separadas / array / solo total |
 | Comisión hotel (commissionable) | `%comisión` explícito | % / importe / no declarada |
 | `pvpRequired` flag | Indica si vendido obligatoriamente a PVP | sí flag / no flag (asumir false) |
 | Multi-ocupación (totalPax + ages) | Lista de ocupaciones soportadas con precio cada una | array completo / solo principal / hay que pedir search por ocupación |
 | `ageRanges` por opción | `[{minAge,maxAge}]` aplicado a precio | rangos explícitos / age categories (Adult/Child/Baby) / age absolute |
 | `rooms[]` dentro de opción | Lista de habitaciones de la opción | una por opción / varias / sumadas |
-| Disponibilidad (allotment hint) | Cantidad restante (informativo) | número / "available" / no se da |
-| Restricciones embedded | MinStay, CTA/CTD, stopSale en search | sí en search / solo en prebook / solo error si infringe |
+| Disponibilidad (allotment hint) | ⚠️ **NO forma parte del flujo Pull/HUB actual** — no asumir que llega; además no todos los providers lo informan | número / "available" / no se da |
+| Restricciones embedded | ⚠️ **Propio de gestión PUSH**, no del flujo Pull/HUB actual | sí en search / solo en prebook / solo error si infringe |
 
 🟢 / 🟡 / 🔴 por cada fila.
+
+> **Corrección Pedro (rev. 18-may)**: (1) "rateKey" es un nombre que confunde — el concepto real es el dato que identifica una disponibilidad reservable (por room o por opción). (2) HUB no pide precio por noche: lo último añadido es **precio por room**. (3) **Disponibilidad** no se ha añadido al flujo HUB; si se añade, ojo porque no todos la informan. (4) **Restricciones** (MinStay, CTA/CTD, stopSale) parecen más de la gestión PUSH que del flujo Pull actual.
 
 ---
 
@@ -86,16 +90,17 @@ Cómo identifica el proveedor sus entidades — esto define el trabajo de mappin
 |---------|---------------------|---------------------------|
 | **Unidad** de deadline | Fecha absoluta UTC `2026-05-19T22:00:00Z` | fecha absoluta / días antes check-in / horas antes / meses antes / mixta |
 | **Granularidad** tramos | Array `[{from,to,percent,refundable}]` con N tramos | un solo tramo / múltiples tramos / por ocupación / per noche |
-| **Penalty type** | `percent` (% del total) | % / nights (X noches) / importe fijo / mixto |
+| **Penalty type** | `amount` (importe) — PerlaHub pide **importe**; el adapter convierte % y noches a importe | % / nights (X noches) / importe fijo / mixto |
 | **Timezone** del deadline | UTC + `Hotel.TimeZoneId` IANA para presentar al cliente | UTC explícito / TZ hotel / TZ booking / sin TZ (asumir hotel) |
-| **Refundable** | Flag explícito por tramo | flag / inferido por % / non-refundable como rate type separado |
-| **Modificable** ≠ cancelable | Flag separado | mismo flag / flag separado / no soportado |
+| **Refundable** | Flag **general** — `true` si en algún momento se puede cancelar sin coste (NO por tramo) | flag / inferido por % / non-refundable como rate type separado |
 | Non-refundable rates | Tipo de rate o flag al inicio | rate type separado (NRF) / flag / siempre 100% penalty desde booking |
 | Cancellation con cargo en card | Tipo de penalización aplicada | charge no-show / pre-auth / sin info |
 
 🟢 / 🟡 / 🔴 por cada fila.
 
 > **Trampa clásica**: provider da "deadline = 14 días antes" sin TZ. PerlaHub aplica `Hotel.TimeZoneId` y eso introduce drift de 1h en DST (Decisión P5).
+>
+> **Corrección Pedro (rev. 18-may)**: (1) PerlaHub pide la penalización como **importe (`amount`)** — el adapter transforma todo (%, noches) a importe. (2) **Refundable** es un flag **general** (true si en algún momento se puede cancelar sin coste), no un flag por tramo. (3) PerlaHub **NO pide** un flag "modificable" separado → fila eliminada.
 
 ---
 
