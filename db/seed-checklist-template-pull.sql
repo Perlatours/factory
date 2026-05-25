@@ -1,8 +1,12 @@
 -- =====================================================================
 -- Template de filas checklist Pull (v0).
--- Fuente: docs/factory_pull/factory_pull_checklist.md v2 (~134 filas reales).
+-- Fuente: docs/factory_pull/factory_pull_checklist.md v3 (~134 filas reales).
 -- v0 mantiene las ~40 filas más críticas. El resto se agrega incrementalmente
 -- (cada cierre Pull en factory-close puede añadir filas nuevas).
+-- v3 (18-may): correcciones Pedro al modelo canónico PerlaHub — global (no por hotel),
+--   penalización en amount (no percent), refundable flag general, sin flag "modificable",
+--   precio por room (no por noche), rateKey = identificador de disponibilidad reservable.
+--   NO aplican a Push/PushOut (modelo PerlaPush/PurchaseContract).
 -- =====================================================================
 
 -- Plantilla en tabla auxiliar (sin FK a connections, para clonar al crear).
@@ -24,17 +28,17 @@ INSERT INTO checklist_template_pull (section, row_key, row_label, expected) VALU
 ('A','op_statics',           'Statics (hotels/rooms/etc.)',  'Carga catálogos P1. ¿dump completo / incremental / per id?'),
 -- B. Identificación y catálogos
 ('B','id_hotel_codes',       'Códigos de hotel',             '¿Códigos propios provider / GIATA / both? ¿estables en tiempo?'),
-('B','id_room_codes',        'Códigos de habitación',        '¿Por hotel / globales? ¿se mantienen tras edición provider?'),
+('B','id_room_codes',        'Códigos de habitación',        'PerlaHub es global: NO requiere unicidad por hotel. Importa CÓMO los define el provider (detalle hotel / endpoint) para mapearlos. ¿estables tras edición provider?'),
 ('B','id_meal_codes',        'Códigos de meal plan',         '¿enum estándar / strings libres? Mapeo necesario'),
 ('B','id_amenities',         'Amenities',                    '¿taxonomía propia / estándar? Cómo se entregan'),
 -- C. Search response (disponibilidad y precio)
-('C','search_rate_breakdown','Rate breakdown',               'Desglose nightly | total. ¿impuestos incluidos / aparte? Currency'),
+('C','search_rate_breakdown','Rate breakdown',               'PerlaHub: total + precio por room (NO pide precio por noche). Provider puede dar nightly|total → mapear. ¿impuestos incluidos / aparte?'),
 ('C','search_pvp_net',       'PVP vs Net',                   '¿Entrega PVP, neto o ambos? Si PVP, % comisión obligatorio'),
-('C','search_rate_key',      'rateKey TTL',                  'Token opaco. ¿TTL declarado? <10min requiere RateKeyBuffer wrapper'),
+('C','search_rate_key',      'rateKey TTL',                  'Identificador de disponibilidad reservable (por room/opción) para prebook; "rateKey" es nombre heredado. Token opaco. ¿TTL declarado? <10min → RateKeyBuffer'),
 ('C','search_currency',      'Currency',                     '¿Forzable en request o se entrega como acepte provider?'),
 ('C','search_taxes',         'Impuestos / fees',             '¿Incluidos en total / desglosados? Stay taxes vs city taxes'),
 -- D. Cancellation policy
-('D','cancel_policy_format', 'Formato política cancelación', 'Reglas: ¿lista con fecha+penalidad? ¿% / fixed / nights? Match CoreCancellationPolicy'),
+('D','cancel_policy_format', 'Formato política cancelación', 'Canónico PerlaHub: penalización en AMOUNT (importe; convertir % y noches). refundable = flag GENERAL (no por tramo). SIN flag "modificable". Match CoreCancellationPolicy'),
 ('D','cancel_timezone',      'Cancellation timezone',        'P5: debe ser UTC + Hotel.TimeZoneId IANA. Provider local time = mismatch'),
 ('D','cancel_partial',       'Cancelación parcial',          '¿Soporta room-level / solo booking completo?'),
 -- E. Check-in / check-out

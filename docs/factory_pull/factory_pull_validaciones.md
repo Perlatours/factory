@@ -103,9 +103,9 @@ Lo que **cambia entre conexiones Pull** es solo el conector (parser + auth salie
 **Ubicación código**: Validadores en cada conector (`Connectors/Accommodation/{Provider}/Operations/Cancel/`).
 
 ✅ Checklist:
-- [ ] Formato: array de tramos `[{from, to, percent, refundable}]`
+- [ ] Formato: array de tramos con **importe** por tramo — canónico PerlaHub = `amount`; el adapter convierte % y noches → importe (corrección Pedro 18-may)
 - [ ] **Decisión P5** respetada: dispo en UTC 0; deadlines parseados con `Hotel.TimeZoneId` (IANA, p.ej. `Europe/Madrid`)
-- [ ] Flag modificable vs no modificable presente
+- [ ] Flag `refundable` **general** presente (true si en algún momento se puede cancelar sin coste; NO por tramo) — PerlaHub NO pide flag "modificable"
 - [ ] Flag non-refundable presente
 - [ ] Fechas no en el pasado, no ultra-futuro
 - [ ] Si conector entrega tramos solapados → última gana (last-writer-wins, documentar comportamiento)
@@ -482,9 +482,9 @@ Recoge todos los items ✅ de las 9 capas en una única lista. Solo se mergea cu
 - [ ] No replica bug PDES-113 (`pvpRequired` con `room.price` omitido)
 
 ### 🚫 Capa 5 — Cancellation policy
-- [ ] Tramos `[{from,to,percent,refundable}]` válidos
+- [ ] Tramos con **importe** (`amount`) válidos — el adapter convierte % y noches
 - [ ] **P5** respetada: UTC 0 + `Hotel.TimeZoneId` IANA
-- [ ] Flags modificable + non-refundable presentes
+- [ ] Flag `refundable` general + non-refundable presentes (PerlaHub NO pide flag "modificable")
 
 ### 🔄 Capa 6 — RateKey / Idempotencia / Price changed
 - [ ] `rateKey` TTL declarado
