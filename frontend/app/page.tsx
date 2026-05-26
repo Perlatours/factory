@@ -3,7 +3,8 @@ import { query } from "@/lib/db";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { STATUS_BADGE, FACTORY_BADGE, cn } from "@/lib/utils";
-import { ArrowRight, User, Layers } from "lucide-react";
+import { compactNextStep } from "@/lib/process";
+import { ArrowRight, User, Layers, Compass, Plus } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,8 @@ type ConnRow = {
   prod_status: string;
   owner_hitl: string | null;
   hitls_pending: string | null;
+  checklist_total: string;
+  checklist_pending: string;
 };
 
 const PHASES = [
@@ -40,7 +43,10 @@ export default async function Home() {
            c.owner_hitl,
            (SELECT string_agg('#'||gate_number::text, ',' ORDER BY gate_number)
             FROM hitl_gates h
-            WHERE h.connection_id = c.id AND h.status = 'pending') AS hitls_pending
+            WHERE h.connection_id = c.id AND h.status = 'pending') AS hitls_pending,
+           (SELECT COUNT(*) FROM checklist_responses cr WHERE cr.connection_id = c.id) AS checklist_total,
+           (SELECT COUNT(*) FROM checklist_responses cr
+            WHERE cr.connection_id = c.id AND cr.classification IS NULL) AS checklist_pending
     FROM connections c
     WHERE c.status IN ('active','awaiting_intake','dormant')
     ORDER BY c.current_phase DESC, c.slug;
@@ -61,6 +67,31 @@ export default async function Home() {
         <StatCard label="Active" value={stats.active} hint="En proceso de fabricación" accent="emerald" />
         <StatCard label="Awaiting Intake" value={stats.awaiting} hint="Falta input externo" accent="amber" />
       </div>
+
+      {/* Cómo arranca una conexión nueva — Fase 0 (la skill crea la carpeta, nadie a mano) */}
+      <Card className="mb-6 border-dashed border-zinc-700/80 bg-zinc-900/20">
+        <div className="flex flex-col gap-3 p-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-start gap-3">
+            <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-zinc-800 text-cyan-400">
+              <Plus className="h-4 w-4" />
+            </div>
+            <div>
+              <div className="text-sm font-semibold">¿Nueva conexión? Empieza por el Intake (Fase 0)</div>
+              <div className="mt-0.5 text-xs leading-relaxed text-zinc-400">
+                Un comando crea la conexión en la DB <span className="text-zinc-200">y su carpeta</span>{" "}
+                <code className="rounded bg-zinc-800 px-1 py-0.5 text-[11px] text-cyan-200">pilots/&lt;slug&gt;/</code>{" "}
+                (inputs · evidence · outputs) desde la plantilla. Nadie la crea a mano.
+              </div>
+            </div>
+          </div>
+          <pre className="overflow-x-auto rounded-lg border border-zinc-800 bg-black/50 p-3 text-[11px] leading-relaxed text-cyan-200/90 lg:max-w-[52%]">
+{`# en Claude Code (terminal):
+/factory-new <slug> --type pull \\
+  --display "..." --contact "Nombre <email>" \\
+  --doc-url ... --sandbox-ok yes --volume "..."`}
+          </pre>
+        </div>
+      </Card>
 
       <div className="mb-4 flex items-end justify-between">
         <div>
@@ -135,6 +166,10 @@ function StatCard({
 function ConnectionCard({ c }: { c: ConnRow }) {
   const statusInfo = STATUS_BADGE[c.status] ?? STATUS_BADGE.dormant;
   const factoryInfo = FACTORY_BADGE[c.factory] ?? FACTORY_BADGE.pull;
+  const nextStep = compactNextStep(c.status, c.current_phase, {
+    total: Number(c.checklist_total),
+    pending: Number(c.checklist_pending),
+  });
   return (
     <Link href={`/connections/${c.slug}`}>
       <Card className="group cursor-pointer p-3 hover:bg-zinc-900/80">
@@ -169,6 +204,11 @@ function ConnectionCard({ c }: { c: ConnRow }) {
               {c.owner_hitl}
             </div>
           )}
+        </div>
+
+        <div className="mt-2 flex items-center gap-1 rounded-md bg-cyan-500/10 px-2 py-1 text-[10px] text-cyan-300">
+          <Compass className="h-3 w-3 shrink-0" />
+          <span className="truncate">Siguiente: {nextStep}</span>
         </div>
 
         {c.hitls_pending && (

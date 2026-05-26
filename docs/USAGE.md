@@ -260,7 +260,7 @@ En el panel → aparece en **Tab 1** con icono 🚫 (filtra status='rejected_int
   --notes "rateKey TTL=2min, demasiado corto. Necesita RateKeyBuffer"
 
 /factory-checklist mark acmebeds-pull --row cancel_timezone --class yellow \
-  --notes "Provider entrega en CET, hay que convertir a UTC + Hotel.TimeZoneId"
+  --notes "Provider entrega en CET (offset fijo), hay que convertir a UTC"
 
 /factory-checklist mark acmebeds-pull --row op_search --class green
 /factory-checklist mark acmebeds-pull --row op_prebook --class green

@@ -91,14 +91,14 @@ Cómo identifica el proveedor sus entidades — esto define el trabajo de mappin
 | **Unidad** de deadline | Fecha absoluta UTC `2026-05-19T22:00:00Z` | fecha absoluta / días antes check-in / horas antes / meses antes / mixta |
 | **Granularidad** tramos | Array `[{from,to,percent,refundable}]` con N tramos | un solo tramo / múltiples tramos / por ocupación / per noche |
 | **Penalty type** | `amount` (importe) — PerlaHub pide **importe**; el adapter convierte % y noches a importe | % / nights (X noches) / importe fijo / mixto |
-| **Timezone** del deadline | UTC + `Hotel.TimeZoneId` IANA para presentar al cliente | UTC explícito / TZ hotel / TZ booking / sin TZ (asumir hotel) |
+| **Timezone** del deadline | Deadlines en UTC; el conector convierte el offset fijo del provider → UTC (sin IANA per-hotel) | UTC explícito / offset fijo (convertir) / sin TZ (revisar) |
 | **Refundable** | Flag **general** — `true` si en algún momento se puede cancelar sin coste (NO por tramo) | flag / inferido por % / non-refundable como rate type separado |
 | Non-refundable rates | Tipo de rate o flag al inicio | rate type separado (NRF) / flag / siempre 100% penalty desde booking |
 | Cancellation con cargo en card | Tipo de penalización aplicada | charge no-show / pre-auth / sin info |
 
 🟢 / 🟡 / 🔴 por cada fila.
 
-> **Trampa clásica**: provider da "deadline = 14 días antes" sin TZ. PerlaHub aplica `Hotel.TimeZoneId` y eso introduce drift de 1h en DST (Decisión P5).
+> **Trampa clásica**: provider da "deadline = 14 días antes" sin TZ explícito. Hay que averiguar el offset del provider (p.ej. Avoris = GMT+1 fijo) y convertir a UTC. PerlaHub guarda UTC, NO resuelve IANA per-hotel (Decisión P5, verificada en código).
 >
 > **Corrección Pedro (rev. 18-may)**: (1) PerlaHub pide la penalización como **importe (`amount`)** — el adapter transforma todo (%, noches) a importe. (2) **Refundable** es un flag **general** (true si en algún momento se puede cancelar sin coste), no un flag por tramo. (3) PerlaHub **NO pide** un flag "modificable" separado → fila eliminada.
 
@@ -262,7 +262,7 @@ Cómo identifica el proveedor sus entidades — esto define el trabajo de mappin
 | **P2** | PVP no recibe markup. Si el provider declara PVP, debe ser consistente y `pvpRequired:true` honrado | 🟢 / 🟡 / 🔴 |
 | **P3** | Re-mapping preserva matches PH↔nombre como oro | siempre ✓ (interno) |
 | **P4** | RoomTypes/Amenities solo del catálogo PerlaHub. Provider manda código, nosotros mapeamos | provider tiene catálogo razonable: 🟢 / 🟡 / 🔴 |
-| **P5** | Cancellation timezone = TZ del hotel (IANA) sobre UTC 0 | provider da TZ explícita: 🟢 / 🟡 / 🔴 |
+| **P5** | Cancellation timezone = deadlines en UTC; conector convierte el offset fijo del provider → UTC (sin IANA per-hotel) | provider da offset claro: 🟢 convierte / 🟡 ambiguo / 🔴 sin offset |
 | **P6** | Validación previa a cualquier escritura PROD | siempre ✓ (interno) |
 
 > Cualquier 🔴 en P1-P6 fuera de los "siempre interno" → **HITL bloqueante**, reunión Pedro+Eva+Santi.

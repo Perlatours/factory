@@ -6,7 +6,7 @@
 - **P2** — PVP ya incluye comisión hotel. `neto = pvp × (1 − %comisión)`. NO se aplica markup encima del PVP.
 - **P3** — Re-mapping preserva matches PerlaHub↔nombre como oro; solo se cambia `target_id`.
 - **P4** — NUNCA inventar RoomTypes ni RoomAmenities. Usar exclusivamente catálogo real PerlaHub.
-- **P5** — Cancellation timezone: UTC + `Hotel.TimeZoneId` IANA.
+- **P5** — Cancellation timezone: deadlines en **UTC**; el conector convierte el offset fijo del provider (p.ej. GMT+1) a UTC. PerlaHub NO resuelve timezone por hotel (sin IANA). [Verificado en código PerlaHub 2026-05-26: `Deadline //UTC` + `DateTimeKind.Utc`; cero `TimeZoneInfo`/IANA en el repo.]
 - **P6** — NO escribir en PerlaHub PROD sin validación previa (lista → validación → ejecución).
 
 ## Decisiones P7+ (espacio para crecer)

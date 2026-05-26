@@ -174,7 +174,7 @@ GeneralContract  (marco legal, periodo, firma, rappel, cláusulas)
 - P2: PVP ya incluye comisión hotel (neto = pvp × (1−%comisión))
 - P3: re-mapping preserva PH↔nombre como oro
 - P4: NUNCA inventar RoomTypes/RoomAmenities
-- P5: cancellation timezone UTC + Hotel.TimeZoneId IANA
+- P5: cancellation timezone — deadlines en UTC; el conector convierte el offset fijo del provider a UTC (sin IANA per-hotel)
 - P6: NO escribir PerlaHub PROD sin validación previa
 
 **Métrica específica Pull**: booking error rate < 4%.
