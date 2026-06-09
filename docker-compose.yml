@@ -7,7 +7,9 @@ services:
       POSTGRES_USER: factory
       POSTGRES_PASSWORD: factory_local
     ports:
-      - "5433:5432"
+      # Solo loopback del host: la DB NUNCA se expone a internet (aunque el SG abra puertos).
+      # El panel le habla por la red interna de compose (factory-db:5432); las skills, por docker exec.
+      - "127.0.0.1:5433:5432"
     volumes:
       - factory-db-data:/var/lib/postgresql/data
       - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
