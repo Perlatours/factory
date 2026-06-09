@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { query } from "@/lib/db";
 import { AlertTriangle, CheckCircle2, Clock } from "lucide-react";
 
@@ -11,6 +12,10 @@ type HITLRow = {
 };
 
 export async function HITLBanner() {
+  // El banner vive en el root layout (envuelve también /_not-found). Sin esto,
+  // Next intenta prerenderizarlo en build time y la query a la DB falla (ECONNREFUSED).
+  // connection() difiere el render a request time, cuando factory-db sí es alcanzable.
+  await connection();
   const rows = (await query<HITLRow>(`
     SELECT c.slug, c.factory, h.gate_number, h.gate_title,
            COALESCE(c.owner_hitl, '—') AS owner,
