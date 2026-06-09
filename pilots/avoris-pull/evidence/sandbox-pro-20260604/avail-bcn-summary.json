@@ -1,0 +1,1211 @@
+{
+  "note": "Extracto: avail GEOGRAPHIC BCN 2026-07-15/17 en PRO. RS completo 2MB; aqui 2 hoteles de muestra.",
+  "totalHotels": 131,
+  "elapsedSeconds": 1.06,
+  "sample": [
+    {
+      "hotelCode": "66695",
+      "name": "ibis Barcelona Pza Glories 22",
+      "roomRates": [
+        {
+          "rateID": "PUBLICA",
+          "rateName": "Pública",
+          "rooms": [
+            {
+              "id": "ROH",
+              "name": "Habitación Con Cama Doble Para 1 Ó 2 Personas Equipada Con La Nueva Cama De Ibis SUMMER 2026 EMPAQUETADA",
+              "index": 1,
+              "configuration": "1a2|30|30n0b0",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 317.23,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 317.23,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              },
+              "conf": "1a2|30|30n0b0"
+            }
+          ],
+          "roomQty": 1,
+          "pricing": {
+            "commission": {
+              "comAgency": {
+                "price": 0.0,
+                "currency": "EUR"
+              },
+              "comTaxPercent": 0.0,
+              "comTaxAmount": 0.0
+            },
+            "sell": {
+              "price": 317.23,
+              "currency": "EUR"
+            },
+            "net": {
+              "price": 317.23,
+              "currency": "EUR"
+            },
+            "currency": "EUR"
+          },
+          "meal": {
+            "id": "SA",
+            "name": "Solo Alojamiento"
+          },
+          "bookToken": "api-c-789-1780576796187$1$1$66695@SA@PUBLICA@10750988420_1@1a2|30|30n0b0@ROH@15-07-2026@17-07-2026@ES@31723@30864@31723@815@es",
+          "status": "OK"
+        }
+      ],
+      "checkIn": "2026-07-15",
+      "checkOut": "2026-07-17",
+      "hotelDetails": {},
+      "info": {
+        "cat": {
+          "id": "2EST",
+          "name": "Hotel 2 Estrellas",
+          "rate": 2,
+          "rateKey": "STAR"
+        },
+        "chain": "IBS",
+        "loc": {
+          "code": "BCN",
+          "name": "Barcelona",
+          "zCode": "BCN|53",
+          "zName": "Diagonal N.",
+          "address": "Carrer de la ciutat de granada, 99",
+          "lat": "41.401055",
+          "long": "2.194399"
+        }
+      },
+      "information": {
+        "cat": {
+          "id": "2EST",
+          "name": "Hotel 2 Estrellas",
+          "rate": 2,
+          "rateKey": "STAR"
+        },
+        "chain": "IBS",
+        "address": {
+          "name": "Carrer de la ciutat de granada, 99",
+          "countryCode": "CGGSZ",
+          "postalCode": "08018",
+          "provinceCode": "BUJSV",
+          "loc": {
+            "code": "BCN",
+            "name": "Barcelona",
+            "zCode": "BCN|53",
+            "zName": "Diagonal N.",
+            "address": "Carrer de la ciutat de granada, 99",
+            "lat": "41.401055",
+            "long": "2.194399"
+          }
+        },
+        "contact": {
+          "email": "H5944@accor.com",
+          "phoneNumber": "933007777"
+        },
+        "chainInformation": {
+          "id": "IBS",
+          "name": "Ibis",
+          "groupId": "ACCORG",
+          "groupName": "AccorHotels"
+        }
+      }
+    },
+    {
+      "hotelCode": "66694",
+      "name": "ibis Barcelona Centro (Sagrada Familia)",
+      "roomRates": [
+        {
+          "rateID": "PUBLICA",
+          "rateName": "Pública",
+          "rooms": [
+            {
+              "id": "H|INT",
+              "name": "Standard Room, Interior",
+              "index": 1,
+              "configuration": "1a2|30|30n0b0",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 368.97,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 368.97,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              },
+              "conf": "1a2|30|30n0b0"
+            }
+          ],
+          "roomQty": 1,
+          "pricing": {
+            "commission": {
+              "comAgency": {
+                "price": 0.0,
+                "currency": "EUR"
+              },
+              "comTaxPercent": 0.0,
+              "comTaxAmount": 0.0
+            },
+            "sell": {
+              "price": 368.97,
+              "currency": "EUR"
+            },
+            "net": {
+              "price": 368.97,
+              "currency": "EUR"
+            },
+            "currency": "EUR"
+          },
+          "meal": {
+            "id": "SA",
+            "name": "Solo Alojamiento"
+          },
+          "cancellationPolicies": [
+            {
+              "from": "2026-06-04",
+              "to": "2026-07-13",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 0.0,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 0.0,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            },
+            {
+              "from": "2026-07-14",
+              "to": "2026-07-14",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 368.97,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 368.97,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            },
+            {
+              "from": "2026-07-15",
+              "to": "2026-07-17",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 368.97,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 368.97,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            }
+          ],
+          "bookToken": "api-c-789-1780576796187$1$1$66694@SA@PUBLICA@10750988420_1@1a2|30|30n0b0@H|INT@15-07-2026@17-07-2026@ES@36897@35898@36897@815@es",
+          "status": "OK"
+        },
+        {
+          "rateID": "NOREEMBOLSABLE",
+          "rateName": "No Reembolsable",
+          "rooms": [
+            {
+              "id": "H|INT",
+              "name": "Standard Room, Interior Non Refundable",
+              "index": 1,
+              "configuration": "1a2|30|30n0b0",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 377.49,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 377.49,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              },
+              "conf": "1a2|30|30n0b0"
+            }
+          ],
+          "roomQty": 1,
+          "pricing": {
+            "commission": {
+              "comAgency": {
+                "price": 0.0,
+                "currency": "EUR"
+              },
+              "comTaxPercent": 0.0,
+              "comTaxAmount": 0.0
+            },
+            "sell": {
+              "price": 377.49,
+              "currency": "EUR"
+            },
+            "net": {
+              "price": 377.49,
+              "currency": "EUR"
+            },
+            "currency": "EUR"
+          },
+          "meal": {
+            "id": "AD",
+            "name": "Alojamiento y Desayuno"
+          },
+          "cancellationPolicies": [
+            {
+              "from": "2026-06-04",
+              "to": "2026-07-17",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 377.49,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 377.49,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            }
+          ],
+          "bookToken": "api-c-789-1780576796187$1$1$66694@AD@NOREEMBOLSABLE@10750988420_1@1a2|30|30n0b0@H|INT@15-07-2026@17-07-2026@ES@37749@36727@37749@815@es",
+          "status": "OK"
+        },
+        {
+          "rateID": "PUBLICA",
+          "rateName": "Pública",
+          "rooms": [
+            {
+              "id": "H|E",
+              "name": "Room For One Or Two Persons Equipped With The New Bedding",
+              "index": 1,
+              "configuration": "1a2|30|30n0b0",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 380.32,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 380.32,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              },
+              "conf": "1a2|30|30n0b0"
+            }
+          ],
+          "roomQty": 1,
+          "pricing": {
+            "commission": {
+              "comAgency": {
+                "price": 0.0,
+                "currency": "EUR"
+              },
+              "comTaxPercent": 0.0,
+              "comTaxAmount": 0.0
+            },
+            "sell": {
+              "price": 380.32,
+              "currency": "EUR"
+            },
+            "net": {
+              "price": 380.32,
+              "currency": "EUR"
+            },
+            "currency": "EUR"
+          },
+          "meal": {
+            "id": "SA",
+            "name": "Solo Alojamiento"
+          },
+          "cancellationPolicies": [
+            {
+              "from": "2026-06-04",
+              "to": "2026-07-13",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 0.0,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 0.0,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            },
+            {
+              "from": "2026-07-14",
+              "to": "2026-07-14",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 380.32,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 380.32,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            },
+            {
+              "from": "2026-07-15",
+              "to": "2026-07-17",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 380.32,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 380.32,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            }
+          ],
+          "bookToken": "api-c-789-1780576796187$1$1$66694@SA@PUBLICA@10750988420_1@1a2|30|30n0b0@H|E@15-07-2026@17-07-2026@ES@38032@37002@38032@815@es",
+          "status": "OK"
+        },
+        {
+          "rateID": "PUBLICA",
+          "rateName": "Pública",
+          "rooms": [
+            {
+              "id": "D|2C",
+              "name": "Room With 1 Double Bed And 1 Single Bed (2 Adults And 1 Child)",
+              "index": 1,
+              "configuration": "1a2|30|30n0b0",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 380.32,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 380.32,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              },
+              "conf": "1a2|30|30n0b0"
+            }
+          ],
+          "roomQty": 1,
+          "pricing": {
+            "commission": {
+              "comAgency": {
+                "price": 0.0,
+                "currency": "EUR"
+              },
+              "comTaxPercent": 0.0,
+              "comTaxAmount": 0.0
+            },
+            "sell": {
+              "price": 380.32,
+              "currency": "EUR"
+            },
+            "net": {
+              "price": 380.32,
+              "currency": "EUR"
+            },
+            "currency": "EUR"
+          },
+          "meal": {
+            "id": "SA",
+            "name": "Solo Alojamiento"
+          },
+          "cancellationPolicies": [
+            {
+              "from": "2026-06-04",
+              "to": "2026-07-13",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 0.0,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 0.0,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            },
+            {
+              "from": "2026-07-14",
+              "to": "2026-07-14",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 380.32,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 380.32,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            },
+            {
+              "from": "2026-07-15",
+              "to": "2026-07-17",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 380.32,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 380.32,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            }
+          ],
+          "bookToken": "api-c-789-1780576796187$1$1$66694@SA@PUBLICA@10750988420_1@1a2|30|30n0b0@D|2C@15-07-2026@17-07-2026@ES@38032@37002@38032@815@es",
+          "status": "OK"
+        },
+        {
+          "rateID": "NOREEMBOLSABLE",
+          "rateName": "No Reembolsable",
+          "rooms": [
+            {
+              "id": "D|2C",
+              "name": "Room With 2 Single Beds For 1 To 2 People Equipped With The New Ibis Bed Non Refundable",
+              "index": 1,
+              "configuration": "1a2|30|30n0b0",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 387.71,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 387.71,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              },
+              "conf": "1a2|30|30n0b0"
+            }
+          ],
+          "roomQty": 1,
+          "pricing": {
+            "commission": {
+              "comAgency": {
+                "price": 0.0,
+                "currency": "EUR"
+              },
+              "comTaxPercent": 0.0,
+              "comTaxAmount": 0.0
+            },
+            "sell": {
+              "price": 387.71,
+              "currency": "EUR"
+            },
+            "net": {
+              "price": 387.71,
+              "currency": "EUR"
+            },
+            "currency": "EUR"
+          },
+          "meal": {
+            "id": "AD",
+            "name": "Alojamiento y Desayuno"
+          },
+          "cancellationPolicies": [
+            {
+              "from": "2026-06-04",
+              "to": "2026-07-17",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 387.71,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 387.71,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            }
+          ],
+          "bookToken": "api-c-789-1780576796187$1$1$66694@AD@NOREEMBOLSABLE@10750988420_1@1a2|30|30n0b0@D|2C@15-07-2026@17-07-2026@ES@38771@37721@38771@815@es",
+          "status": "OK"
+        },
+        {
+          "rateID": "NOREEMBOLSABLE",
+          "rateName": "No Reembolsable",
+          "rooms": [
+            {
+              "id": "H|E",
+              "name": "Room For One Or Two Persons Equipped With The New Bedding Non Refundable",
+              "index": 1,
+              "configuration": "1a2|30|30n0b0",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 387.71,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 387.71,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              },
+              "conf": "1a2|30|30n0b0"
+            }
+          ],
+          "roomQty": 1,
+          "pricing": {
+            "commission": {
+              "comAgency": {
+                "price": 0.0,
+                "currency": "EUR"
+              },
+              "comTaxPercent": 0.0,
+              "comTaxAmount": 0.0
+            },
+            "sell": {
+              "price": 387.71,
+              "currency": "EUR"
+            },
+            "net": {
+              "price": 387.71,
+              "currency": "EUR"
+            },
+            "currency": "EUR"
+          },
+          "meal": {
+            "id": "AD",
+            "name": "Alojamiento y Desayuno"
+          },
+          "cancellationPolicies": [
+            {
+              "from": "2026-06-04",
+              "to": "2026-07-17",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 387.71,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 387.71,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            }
+          ],
+          "bookToken": "api-c-789-1780576796187$1$1$66694@AD@NOREEMBOLSABLE@10750988420_1@1a2|30|30n0b0@H|E@15-07-2026@17-07-2026@ES@38771@37721@38771@815@es",
+          "status": "OK"
+        },
+        {
+          "rateID": "PUBLICA",
+          "rateName": "Pública",
+          "rooms": [
+            {
+              "id": "H|INT",
+              "name": "Standard Room, Interior",
+              "index": 1,
+              "configuration": "1a2|30|30n0b0",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 404.85,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 404.85,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              },
+              "conf": "1a2|30|30n0b0"
+            }
+          ],
+          "roomQty": 1,
+          "pricing": {
+            "commission": {
+              "comAgency": {
+                "price": 0.0,
+                "currency": "EUR"
+              },
+              "comTaxPercent": 0.0,
+              "comTaxAmount": 0.0
+            },
+            "sell": {
+              "price": 404.85,
+              "currency": "EUR"
+            },
+            "net": {
+              "price": 404.85,
+              "currency": "EUR"
+            },
+            "currency": "EUR"
+          },
+          "meal": {
+            "id": "AD",
+            "name": "Alojamiento y Desayuno"
+          },
+          "cancellationPolicies": [
+            {
+              "from": "2026-06-04",
+              "to": "2026-07-13",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 0.0,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 0.0,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            },
+            {
+              "from": "2026-07-14",
+              "to": "2026-07-14",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 404.85,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 404.85,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            },
+            {
+              "from": "2026-07-15",
+              "to": "2026-07-17",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 404.85,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 404.85,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            }
+          ],
+          "bookToken": "api-c-789-1780576796187$1$1$66694@AD@PUBLICA@10750988420_1@1a2|30|30n0b0@H|INT@15-07-2026@17-07-2026@ES@40485@39389@40485@815@es",
+          "status": "OK"
+        },
+        {
+          "rateID": "PUBLICA",
+          "rateName": "Pública",
+          "rooms": [
+            {
+              "id": "D|2C",
+              "name": "Room With 2 Single Beds For 1 To 2 People Equipped With The New Ibis Bed",
+              "index": 1,
+              "configuration": "1a2|30|30n0b0",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 415.95,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 415.95,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              },
+              "conf": "1a2|30|30n0b0"
+            }
+          ],
+          "roomQty": 1,
+          "pricing": {
+            "commission": {
+              "comAgency": {
+                "price": 0.0,
+                "currency": "EUR"
+              },
+              "comTaxPercent": 0.0,
+              "comTaxAmount": 0.0
+            },
+            "sell": {
+              "price": 415.95,
+              "currency": "EUR"
+            },
+            "net": {
+              "price": 415.95,
+              "currency": "EUR"
+            },
+            "currency": "EUR"
+          },
+          "meal": {
+            "id": "AD",
+            "name": "Alojamiento y Desayuno"
+          },
+          "cancellationPolicies": [
+            {
+              "from": "2026-06-04",
+              "to": "2026-07-13",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 0.0,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 0.0,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            },
+            {
+              "from": "2026-07-14",
+              "to": "2026-07-14",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 415.95,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 415.95,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            },
+            {
+              "from": "2026-07-15",
+              "to": "2026-07-17",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 415.95,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 415.95,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            }
+          ],
+          "bookToken": "api-c-789-1780576796187$1$1$66694@AD@PUBLICA@10750988420_1@1a2|30|30n0b0@D|2C@15-07-2026@17-07-2026@ES@41595@40469@41595@815@es",
+          "status": "OK"
+        },
+        {
+          "rateID": "PUBLICA",
+          "rateName": "Pública",
+          "rooms": [
+            {
+              "id": "H|E",
+              "name": "Room For One Or Two Persons Equipped With The New Bedding",
+              "index": 1,
+              "configuration": "1a2|30|30n0b0",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 415.95,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 415.95,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              },
+              "conf": "1a2|30|30n0b0"
+            }
+          ],
+          "roomQty": 1,
+          "pricing": {
+            "commission": {
+              "comAgency": {
+                "price": 0.0,
+                "currency": "EUR"
+              },
+              "comTaxPercent": 0.0,
+              "comTaxAmount": 0.0
+            },
+            "sell": {
+              "price": 415.95,
+              "currency": "EUR"
+            },
+            "net": {
+              "price": 415.95,
+              "currency": "EUR"
+            },
+            "currency": "EUR"
+          },
+          "meal": {
+            "id": "AD",
+            "name": "Alojamiento y Desayuno"
+          },
+          "cancellationPolicies": [
+            {
+              "from": "2026-06-04",
+              "to": "2026-07-13",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 0.0,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 0.0,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            },
+            {
+              "from": "2026-07-14",
+              "to": "2026-07-14",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 415.95,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 415.95,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            },
+            {
+              "from": "2026-07-15",
+              "to": "2026-07-17",
+              "pricing": {
+                "commission": {
+                  "comAgency": {
+                    "price": 0.0,
+                    "currency": "EUR"
+                  },
+                  "comTaxPercent": 0.0,
+                  "comTaxAmount": 0.0
+                },
+                "sell": {
+                  "price": 415.95,
+                  "currency": "EUR"
+                },
+                "net": {
+                  "price": 415.95,
+                  "currency": "EUR"
+                },
+                "currency": "EUR"
+              }
+            }
+          ],
+          "bookToken": "api-c-789-1780576796187$1$1$66694@AD@PUBLICA@10750988420_1@1a2|30|30n0b0@H|E@15-07-2026@17-07-2026@ES@41595@40469@41595@815@es",
+          "status": "OK"
+        }
+      ],
+      "checkIn": "2026-07-15",
+      "checkOut": "2026-07-17",
+      "hotelDetails": {},
+      "info": {
+        "cat": {
+          "id": "2EST",
+          "name": "Hotel 2 Estrellas",
+          "rate": 2,
+          "rateKey": "STAR"
+        },
+        "chain": "IBS",
+        "loc": {
+          "code": "BCN",
+          "name": "Barcelona",
+          "zCode": "BCN|46",
+          "zName": "Sagrada Familia",
+          "address": "Napols 230 / 232",
+          "lat": "41.400857296485",
+          "long": "2.1724634656414"
+        }
+      },
+      "information": {
+        "cat": {
+          "id": "2EST",
+          "name": "Hotel 2 Estrellas",
+          "rate": 2,
+          "rateKey": "STAR"
+        },
+        "chain": "IBS",
+        "address": {
+          "name": "Napols 230 / 232",
+          "countryCode": "CGGSZ",
+          "postalCode": "08013",
+          "provinceCode": "BUJSV",
+          "loc": {
+            "code": "BCN",
+            "name": "Barcelona",
+            "zCode": "BCN|46",
+            "zName": "Sagrada Familia",
+            "address": "Napols 230 / 232",
+            "lat": "41.400857296485",
+            "long": "2.1724634656414"
+          }
+        },
+        "contact": {
+          "email": "H7567@accor.com",
+          "phoneNumber": "932080536"
+        },
+        "chainInformation": {
+          "id": "IBS",
+          "name": "Ibis",
+          "groupId": "ACCORG",
+          "groupName": "AccorHotels"
+        }
+      }
+    }
+  ],
+  "token": "api-c-789-1780576796187"
+}

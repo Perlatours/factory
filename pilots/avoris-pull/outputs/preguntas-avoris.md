@@ -14,13 +14,13 @@ Hola 👋 Hemos analizado la documentación de Polaris v2.5 (+ doc de certificac
 
 ### Acceso
 
-**1. Swagger.** En §3.2 mencionáis un proyecto Swagger y que para acceder hay que pedir invitación (Jira / `apiclients@welcomebeds.com`). ¿Nos la podéis enviar? Nos resolvería de paso varias de las dudas de abajo (amenities, imágenes, transporte de credenciales).
+**1. Swagger.** ✅ **Resuelto por nuestra parte** — encontramos los OpenAPI públicos: `polarisapi.avoristravel.com/{avail,book,staticdata}/v2/api-docs?group=Public` (UI en `swagger-ui-polaris.barceloviajes.com/polaris`). Con eso avanzamos; si hubiera un Swagger más completo/privado, bienvenido.
 
 ### Seguridad / credenciales
 
 **2. Rate limits.** En §7 vemos que devolvéis `HTTP 429 "Rate Limiter Exceeded"` y que debemos avisaros ante aumentos de tráfico. Pero no encontramos los límites concretos. ¿Nos podéis indicar peticiones/seg (o /min) permitidas, tamaño de *burst*, y si devolvéis headers de rate-limit (tipo `X-RateLimit-*` o `Retry-After`)? Lo necesitamos para dimensionar nuestro control de tráfico.
 
-**3. Autenticación.** En la doc de certificación nos disteis credenciales TST (`user` / `password`), pero los ejemplos de request no muestran cómo se transmiten. ¿Van por **HTTP Basic Auth**, por un **header** concreto, o dentro del **body**?
+**3. Credenciales TST para certificación.** Nuestras credenciales **PRO** (user `4144001`, sucursal B2B Perlatours) **funcionan correctamente** en `polarisapi.avoristravel.com` (HTTP Basic — avail, statics y prebook verificados). Sin embargo, las credenciales TST de la doc de certificación (`net/Test01Net`) devuelven **`401 "Invalid auth"`** en `tst-polarisapi.avoristravel.com` (y nuestras claves PRO tampoco funcionan allí). Para ejecutar los escenarios de certificación en TST sin generar reservas reales: **¿nos reemitís/activáis unas credenciales TST válidas?** Alternativamente, ¿confirmáis que podemos certificar contra PRO usando tarifas flexibles + cancelación inmediata sin gastos (como sugiere §2.2)?
 
 **4. Rotación de credenciales.** Entendemos que las credenciales PRO se entregan tras la certificación (§2.2). ¿Existe política de **rotación o caducidad** de credenciales (TST y PRO)? ¿Cómo se renueva o revoca si hiciera falta?
 
