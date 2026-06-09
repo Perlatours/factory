@@ -2,7 +2,7 @@
 
 _Auto-generado por `scripts/dump-registry.sh`. No editar a mano._
 
-_Última actualización: 2026-06-09 10:28:10 UTC_
+_Última actualización: 2026-06-09 17:06:34 UTC_
 
 ## Conexiones activas
 

@@ -11,17 +11,23 @@ allowed-tools: [Bash, Read, Write]
 
 # Factory Mock Tests
 
+## Reglas de captura (obligatorias)
+
+1. **Flujo COMPLETO en todos los casos.** Cada caso recorre `avail → prebook → book → cancel` de extremo a extremo, no solo hasta prebook. (Una validación parcial — p.ej. multi-room solo hasta prebook — deja sin probar el book real y se sobre-afirma "PASS".)
+2. **Siempre con tarifa REEMBOLSABLE 100%** (cancelación gratis): elegir un rate con cancelación gratuita en la fecha de la prueba para que `book`+`cancel` tengan **coste 0**. Nunca NRF para estos casos.
+3. **Registrar RQ y RS de cada paso** en ficheros separados (`<caso>-<step>-rq.json` / `<caso>-<step>-rs.json`). No basta el RS: muchas causas (index de travellers, paridad de token, ages-mismatch) solo se ven comparando RQ↔RS.
+
 ## 7 casos estándar Pull
 
-| # | Caso | Qué prueba |
-|---|---|---|
-| 1 | basic_1_night | Happy path: 1 hotel, 1 room, 1 noche, 2 adultos |
-| 2 | multi_night | Mismo, 7 noches → ¿pricing nightly vs total? |
-| 3 | multi_room | 2 rooms en mismo booking |
-| 4 | multi_occupancy | 2 adultos + 1 niño 8 años + 1 bebé |
-| 5 | currency_switch | Misma búsqueda en USD vs EUR → ¿forzable? |
-| 6 | edge_dates | Check-in mañana / check-in +12 meses |
-| 7 | cancel_flow | Book → cancel sin penal vs cancel con penal |
+| # | Caso | Qué prueba | Flujo |
+|---|---|---|---|
+| 1 | basic_1_night | Happy path: 1 hotel, 1 room, 1 noche, 2 adultos | avail→prebook→book→cancel |
+| 2 | multi_night | Mismo, 7 noches → ¿pricing nightly vs total? | avail→prebook→book→cancel |
+| 3 | multi_room | 2 rooms en mismo booking | avail→prebook→**book→cancel** (no parar en prebook) |
+| 4 | multi_occupancy | 2 adultos + 1 niño 8 años + 1 bebé | avail→prebook→book→cancel |
+| 5 | currency_switch | Misma búsqueda en USD vs EUR → ¿forzable? | avail (×2 divisa) |
+| 6 | edge_dates | Check-in mañana / check-in +12 meses | avail→prebook→book→cancel |
+| 7 | cancel_flow | Book → cancel; medir **latencia book→cancel** (timestamps) | avail→prebook→book→cancel |
 
 ## Sintaxis
 

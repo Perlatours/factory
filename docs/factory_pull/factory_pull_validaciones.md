@@ -355,8 +355,9 @@ Auditado 12-may. Cada fila = ítem ✅/❌ para tu nueva conexión.
 | **P4** | NUNCA inventar RoomTypes/RoomAmenities — solo catálogo PerlaHub | Capa 3 reject si room no en Masters | `feedback_no_invent_perla_codes` |
 | **P5** | Cancellation timezone: deadlines en UTC; conector convierte offset fijo del provider → UTC (sin IANA per-hotel) | `SpecifyKind(Utc)` + conector resta el offset (Avoris GMT+1 → −1h) | `project_contratos_timezone_decision` |
 | **P6** | NO escribir PerlaHub PROD sin validación previa | Circuito: fetch list → validate → execute | `feedback_no_writes_to_ph_without_validation` |
+| **P7** | El conector **NUNCA mapea identificadores de catálogo** (hotel/room/meal/amenity). El flujo solo **CABLEA**: copia el id del proveedor al campo canónico tal cual. El mapeo `id_provider→id_PH` es tarea **EXTERNA** del servicio de Mapping de PerlaHub, alimentado por el Inventory de PH + los estáticos consultables del proveedor (`IGetHotels/RoomTypes/MealPlans/RoomAmenities` → `{Id,Name}`) | search: `hotelCode→HotelId`, `rooms[].id→RoomTypeId`, `meal.id→MealPlanId`; mapeo en `Mapping/` (`InsertHotel/Room/MealPlanMapping`) | `feedback_connector_only_wires` (avoris-pull 2026-06-09) |
 
-> Cualquier mismatch que toque P1-P6 → **HITL #3 obligatorio** (Paso 5 del proceso).
+> Cualquier mismatch que toque P1-P7 → **HITL #3 obligatorio** (Paso 5 del proceso).
 
 ---
 

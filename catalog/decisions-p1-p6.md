@@ -8,6 +8,7 @@
 - **P4** — NUNCA inventar RoomTypes ni RoomAmenities. Usar exclusivamente catálogo real PerlaHub.
 - **P5** — Cancellation timezone: deadlines en **UTC**; el conector convierte el offset fijo del provider (p.ej. GMT+1) a UTC. PerlaHub NO resuelve timezone por hotel (sin IANA). [Verificado en código PerlaHub 2026-05-26: `Deadline //UTC` + `DateTimeKind.Utc`; cero `TimeZoneInfo`/IANA en el repo.]
 - **P6** — NO escribir en PerlaHub PROD sin validación previa (lista → validación → ejecución).
+- **P7** — El conector **NUNCA mapea identificadores de catálogo** (hotel/room/meal/amenity). El flujo solo **CABLEA**: copia el id del proveedor al campo canónico tal cual (`hotelCode→HotelId`, `rooms[].id→RoomTypeId`, `meal.id→MealPlanId`). El mapeo `id_provider→id_PH` es tarea **EXTERNA** del servicio de Mapping de PerlaHub, alimentado por el Inventory local + los estáticos consultables del proveedor (`IGetHotels/RoomTypes/MealPlans/RoomAmenities`). Extiende P1 y P4. [avoris-pull 2026-06-09]
 
 ## Decisiones P7+ (espacio para crecer)
 
