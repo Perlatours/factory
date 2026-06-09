@@ -1,12 +1,12 @@
 # avoris-pull · STATE
 
-_Auto-generado. Última actualización: 2026-06-09 17:06:32 UTC_
+_Auto-generado. Última actualización: 2026-06-09 18:05:37 UTC_
 
 ## Resumen
 
 - **Factory**: pull
 - **Modo**: —
-- **Fase actual**: 5
+- **Fase actual**: 6
 - **Status**: active
 - **DEV**: not_deployed  |  **PROD**: not_deployed
 - **Owner HITL**: Pedro
@@ -26,6 +26,7 @@ _Auto-generado. Última actualización: 2026-06-09 17:06:32 UTC_
 
 | De | A | Actor | Cuándo | Notas |
 |---|---|---|---|---|
+| 5' | '6' | 'Pedro' | '2026-06-09 18:05:27.290506+00' | 'Informe final Fase 5 REVISADO y APROBADO por Pedro (revisión HITL mediante seguimiento detallado). 8 ajustes registrados en sorpresas/checklist: #16 index, #10 paridad, #9 penalidad in-stay (corregida), #18 cancel (rebajada), #20 colapso variantes (a negocio), id_room_codes/id_amenities cableado, meal_codes_mapping resuelto. Informe regenerado limpio (commits 1373845 + f82bf42). Conexión pasa a Fase 6 (codificación, en PerlaHub, fuera de la planta). NOTA: el gate HITL #3 (Aprobar PR código) SIGUE PENDIENTE — se aprobará cuando exista el PR. |
 | 4' | '5' | 'claude/factory-pull' | '2026-06-09 10:26:57.53635+00' | 'HITL #2 aprobado (Pedro). Avanza a Fase 5 informe final. |
 | 3' | '4' | 'claude/factory-pull' | '2026-06-09 10:05:19.565863+00' | 'Mock Tests Fase 3: 7/7 PASS en PRO (coste 0). Hallazgos: pricing total no-nightly, single-currency EUR, cancel necesita retry. Avanza a Fase 4 Mismatches. |
 | 2' | '3' | 'claude/factory-pull' | '2026-06-09 08:24:51.49231+00' | 'Sandbox Fase 2 PASS (flujo E2E 6/6 en PRO, reserva 802885266 creada+cancelada coste 0). Avanza a Fase 3 Mock Tests. |
