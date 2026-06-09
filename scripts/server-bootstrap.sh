@@ -41,6 +41,20 @@ SNAP="$(ls -t db/snapshots/*.sql 2>/dev/null | head -1 || true)"
 if [ -n "$SNAP" ]; then
   echo "  restaurando $SNAP"
   docker exec -i factory-db psql -U factory -d factory -q < "$SNAP"
+  # El snapshot usa --clean (DROP+CREATE), que descarta los GRANTs. Re-asegurar
+  # que el panel (factory_reader, SELECT-only) puede leer todas las tablas.
+  docker exec -i factory-db psql -U factory -d factory -q <<'GRANTS'
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname='factory_reader') THEN
+    CREATE ROLE factory_reader WITH LOGIN PASSWORD 'factory_reader_local';
+  END IF;
+END $$;
+GRANT CONNECT ON DATABASE factory TO factory_reader;
+GRANT USAGE ON SCHEMA public TO factory_reader;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO factory_reader;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO factory_reader;
+GRANTS
+  echo "  ✓ permisos del panel (factory_reader) re-aplicados"
 else
   echo "  (sin snapshot; la DB queda con schema+seed base)"
 fi

@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict mkhOgCoHYBGVBxhjmthELeti7zlfRdeEWYFl9mRwFl2U9ejT6ThxbzwIaiBYsao
+\restrict rJknIwiGkxZ8ajiQYdte8Shu7Y3kzIGHjVpT1gTcRfjlnoO08OVV5DHYc72iVG5
 
 -- Dumped from database version 17.10
 -- Dumped by pg_dump version 17.10
@@ -806,6 +806,12 @@ COPY public.work_log (id, ts, actor, role, event_type, connection_slug, detail) 
 4	2026-06-09 10:26:31.132216+00	Santi	developer	prompt	\N	sigue con la sigueinte fase
 5	2026-06-09 10:33:10.310828+00	Santi	developer	prompt	\N	vamos con fase 5
 6	2026-06-09 10:55:45.630763+00	Santi	developer	prompt	\N	monta todo en Factory factory-424324      Select EIP 101.46.140.159      para que luego pedro sigue, has commit push y asi le paso a pedro. 
+7	2026-06-09 11:17:32.887606+00	Santi	developer	prompt	\N	No está bloqueado lo cree tiene todos los accesos esa es la clave con la que lo, User Name    Access Key Id    Secret Access Key hid_l8t2wta
+8	2026-06-09 11:19:13.064257+00	Santi	developer	prompt	\N	ten cuidado entre el juego y porque está toda la producción de nuestro
+9	2026-06-09 11:20:43.234666+00	Santi	developer	prompt	\N	sí es exclusivo para esto
+10	2026-06-09 11:23:32.817614+00	Santi	developer	prompt	\N	[Image #2]
+11	2026-06-09 12:25:44.845901+00	Santi	developer	prompt	\N	continua
+12	2026-06-09 12:50:17.837191+00	Santi	developer	prompt	\N	haz commit y push y garntiza que la db esta completa en el repo, asi cuando pedro lo clone puede continuar el proceso como lo llevamos
 \.
 
 
@@ -862,7 +868,7 @@ SELECT pg_catalog.setval('public.surprises_id_seq', 19, true);
 -- Name: work_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.work_log_id_seq', 6, true);
+SELECT pg_catalog.setval('public.work_log_id_seq', 12, true);
 
 
 --
@@ -1098,5 +1104,5 @@ ALTER TABLE ONLY public.surprises
 -- PostgreSQL database dump complete
 --
 
-\unrestrict mkhOgCoHYBGVBxhjmthELeti7zlfRdeEWYFl9mRwFl2U9ejT6ThxbzwIaiBYsao
+\unrestrict rJknIwiGkxZ8ajiQYdte8Shu7Y3kzIGHjVpT1gTcRfjlnoO08OVV5DHYc72iVG5
 
