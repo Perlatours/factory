@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { Factory, GraduationCap, Home } from "lucide-react";
 import { HITLBanner } from "@/components/hitl-banner";
+import { AutoRefresh } from "@/components/auto-refresh";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -43,6 +44,7 @@ export default function RootLayout({
               >
                 <GraduationCap className="h-4 w-4" /> Aprendizaje
               </Link>
+              <AutoRefresh seconds={15} />
             </nav>
           </div>
         </header>

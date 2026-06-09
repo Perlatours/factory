@@ -7,7 +7,7 @@
 | Wrapper | Propósito | Usado en | Status |
 |---|---|---|---|
 | `RateKeyBuffer.cs` | Buffer 2min antes de book si TTL < 10min | — | pendiente |
-| `TimezoneResolver.cs` | UTC + `Hotel.TimeZoneId` IANA | Dome, TGX | pendiente catalogar |
+| `TimezoneResolver.cs` | Convierte el offset fijo del provider → UTC (PerlaHub guarda UTC; sin IANA per-hotel) | Dome, TGX | pendiente catalogar |
 | `CoreCancelNotFound.cs` | Normaliza 404 cancel | — | pendiente |
 | `BackoffExpStrategy.cs` | 1-2-4-8s con retries configurables | — | pendiente |
 | `CurrencyForcer.cs` | Fuerza currency request si provider es multi-currency | — | pendiente |

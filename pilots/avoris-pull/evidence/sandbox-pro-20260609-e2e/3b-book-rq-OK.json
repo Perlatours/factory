@@ -1,0 +1,9 @@
+{
+  "bookToken": "api-744732-1780992539579_615615-1780992539689$1$5$66646@SA@PUBLICA@50331@1a2|30|30n0b0@H|E@15-09-2026@17-09-2026@ES@23498@22794@23498@568@es",
+  "bookingReference": { "requestReferenceID": "PERLA-TEST-20260609-1009" },
+  "remarks": "Reserva de prueba certificacion Perlatours - se cancelara de inmediato",
+  "travellers": [
+    { "age": 30, "index": 1, "person": { "name": "Santiago", "lastName": "Patino" } },
+    { "age": 30, "index": 1, "person": { "name": "Maria", "lastName": "Garcia" } }
+  ]
+}

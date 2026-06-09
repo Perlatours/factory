@@ -29,7 +29,7 @@ INSERT INTO checklist_template_pull (section, row_key, row_label, expected) VALU
 -- B. Identificación y catálogos
 ('B','id_hotel_codes',       'Códigos de hotel',             '¿Códigos propios provider / GIATA / both? ¿estables en tiempo?'),
 ('B','id_room_codes',        'Códigos de habitación',        'PerlaHub es global: NO requiere unicidad por hotel. Importa CÓMO los define el provider (detalle hotel / endpoint) para mapearlos. ¿estables tras edición provider?'),
-('B','id_meal_codes',        'Códigos de meal plan',         '¿enum estándar / strings libres? Mapeo necesario'),
+('B','id_meal_codes',        'Códigos de meal plan',         '¿Códigos de meal del provider (enum / strings libres)? Mapeo necesario contra el catálogo CONFIGURABLE de PerlaHub (BBDD), igual que rooms/hotels (NO enum hardcoded)'),
 ('B','id_amenities',         'Amenities',                    '¿taxonomía propia / estándar? Cómo se entregan'),
 -- C. Search response (disponibilidad y precio)
 ('C','search_rate_breakdown','Rate breakdown',               'PerlaHub: total + precio por room (NO pide precio por noche). Provider puede dar nightly|total → mapear. ¿impuestos incluidos / aparte?'),
@@ -39,20 +39,20 @@ INSERT INTO checklist_template_pull (section, row_key, row_label, expected) VALU
 ('C','search_taxes',         'Impuestos / fees',             '¿Incluidos en total / desglosados? Stay taxes vs city taxes'),
 -- D. Cancellation policy
 ('D','cancel_policy_format', 'Formato política cancelación', 'Canónico PerlaHub: penalización en AMOUNT (importe; convertir % y noches). refundable = flag GENERAL (no por tramo). SIN flag "modificable". Match CoreCancellationPolicy'),
-('D','cancel_timezone',      'Cancellation timezone',        'P5: debe ser UTC + Hotel.TimeZoneId IANA. Provider local time = mismatch'),
+('D','cancel_timezone',      'Cancellation timezone',        'P5: deadlines se guardan en UTC; el conector convierte el offset fijo del provider (p.ej. GMT+1) a UTC. PerlaHub NO usa IANA per-hotel. Provider sin offset claro = revisar'),
 ('D','cancel_partial',       'Cancelación parcial',          '¿Soporta room-level / solo booking completo?'),
 -- E. Check-in / check-out
 ('E','checkin_time',         'Check-in time',                '¿Por hotel? ¿default 15:00? Late check-in policy'),
 ('E','checkout_time',        'Check-out time',               '¿Por hotel? ¿default 11:00?'),
 -- F. Meal plan
-('F','meal_codes_mapping',   'Mapping meal plan',            'Strings provider → enum PerlaHub. P4: usar catálogo real PH'),
+('F','meal_codes_mapping',   'Mapping meal plan',            'Códigos provider → catálogo CONFIGURABLE de PerlaHub (BBDD). P4: mapear contra el catálogo real (como rooms/hotels), nunca inventar. NO es un enum hardcoded'),
 ('F','meal_addons',          'Addons meal plan',             'Add-ons (almuerzo/cena suplementos) ¿en meal o aparte?'),
 -- G. Ocupación, edades, huéspedes
 ('G','occupancy_adults',     'Adultos por habitación',       'minAdults / maxAdults'),
-('G','occupancy_children',   'Niños y edades',               'ageConfiguration: infant/child/teen rangos'),
+('G','occupancy_children',   'Niños y edades',               'PerlaHub usa EDADES exactas (edad del niño a check-in). Los rangos infant/child/teen son config por conector si el provider los requiere. ¿Provider entrega edad exacta?'),
 ('G','occupancy_babies',     'Bebés / cunas',                '¿se modelan?'),
 -- H. Rate types y promociones
-('H','rate_promos',          'Promociones',                  'Early Booking / NRF / Long Stay / Mobile rate / Member rate'),
+('H','rate_promos',          'Promociones',                  'PerlaHub NO clasifica promos en el flujo. Los rateIDs (opaca/NRF/etc.) se usan como FILTRO de Distribución a nivel credencial/conexión (p.ej. solicitar solo opacas). ¿Qué rateIDs entrega el provider para poder filtrar?'),
 ('H','rate_minstay',         'Minimum stay',                 'Por rate plan / por hotel / global'),
 -- I. Restricciones y allotment
 ('I','restrict_stopsale',    'Stop sale',                    'Por hotel / room / fechas'),

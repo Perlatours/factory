@@ -104,7 +104,7 @@ Lo que **cambia entre conexiones Pull** es solo el conector (parser + auth salie
 
 ✅ Checklist:
 - [ ] Formato: array de tramos con **importe** por tramo — canónico PerlaHub = `amount`; el adapter convierte % y noches → importe (corrección Pedro 18-may)
-- [ ] **Decisión P5** respetada: dispo en UTC 0; deadlines parseados con `Hotel.TimeZoneId` (IANA, p.ej. `Europe/Madrid`)
+- [ ] **Decisión P5** respetada: deadlines guardados en UTC; el conector convierte el offset fijo del provider (p.ej. GMT+1) a UTC. Sin IANA per-hotel (PerlaHub guarda UTC).
 - [ ] Flag `refundable` **general** presente (true si en algún momento se puede cancelar sin coste; NO por tramo) — PerlaHub NO pide flag "modificable"
 - [ ] Flag non-refundable presente
 - [ ] Fechas no en el pasado, no ultra-futuro
@@ -353,7 +353,7 @@ Auditado 12-may. Cada fila = ítem ✅/❌ para tu nueva conexión.
 | **P2** | PVP NO tiene markup, ya incluye comisión hotel. `neto = pvp × (1−%comisión)` | `OccupancyPriceCalculator` aplica % solo a Net | `feedback_pvp_no_markup` |
 | **P3** | Re-mapping preserva matches PH↔nombre como oro, solo cambia target_id (external) | Bola nieve Expedia: preservar names PH, cambiar externalKey | `feedback_expedia_remap_strategy` |
 | **P4** | NUNCA inventar RoomTypes/RoomAmenities — solo catálogo PerlaHub | Capa 3 reject si room no en Masters | `feedback_no_invent_perla_codes` |
-| **P5** | Cancellation timezone: UTC 0 dispo + `Hotel.TimeZoneId` IANA | Policy deadline parseado con TZ | `project_contratos_timezone_decision` |
+| **P5** | Cancellation timezone: deadlines en UTC; conector convierte offset fijo del provider → UTC (sin IANA per-hotel) | `SpecifyKind(Utc)` + conector resta el offset (Avoris GMT+1 → −1h) | `project_contratos_timezone_decision` |
 | **P6** | NO escribir PerlaHub PROD sin validación previa | Circuito: fetch list → validate → execute | `feedback_no_writes_to_ph_without_validation` |
 
 > Cualquier mismatch que toque P1-P6 → **HITL #3 obligatorio** (Paso 5 del proceso).
@@ -483,7 +483,7 @@ Recoge todos los items ✅ de las 9 capas en una única lista. Solo se mergea cu
 
 ### 🚫 Capa 5 — Cancellation policy
 - [ ] Tramos con **importe** (`amount`) válidos — el adapter convierte % y noches
-- [ ] **P5** respetada: UTC 0 + `Hotel.TimeZoneId` IANA
+- [ ] **P5** respetada: deadlines en UTC; conector convierte offset fijo del provider → UTC (sin IANA per-hotel)
 - [ ] Flag `refundable` general + non-refundable presentes (PerlaHub NO pide flag "modificable")
 
 ### 🔄 Capa 6 — RateKey / Idempotencia / Price changed

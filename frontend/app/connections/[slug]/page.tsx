@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { STATUS_BADGE, FACTORY_BADGE, CLASSIFICATION_DOT, cn } from "@/lib/utils";
 import { ArrowLeft, Mail, Calendar, AlertTriangle, CheckCircle2, CircleDot, Activity } from "lucide-react";
+import { ProcessGuide } from "@/components/process-guide";
 
 export const dynamic = "force-dynamic";
 
@@ -117,6 +118,18 @@ export default async function ConnectionDetail({
     [connection.id]
   )) as ChecklistSection[];
 
+  const clAgg = checklist.reduce(
+    (a, s) => ({
+      total: a.total + Number(s.total),
+      pending: a.pending + Number(s.pending),
+      green: a.green + Number(s.green),
+      yellow: a.yellow + Number(s.yellow),
+      red: a.red + Number(s.red),
+      na: a.na + Number(s.na),
+    }),
+    { total: 0, pending: 0, green: 0, yellow: 0, red: 0, na: 0 }
+  );
+
   const surprises = (await query<Surprise>(
     `SELECT id, title, description, catalog_anexo, resolved, detected_at
      FROM surprises WHERE connection_id = $1
@@ -196,6 +209,21 @@ export default async function ConnectionDetail({
           </div>
         )}
       </Card>
+
+      {/* Guía del proceso — el corazón del panel: qué hacer ahora */}
+      <ProcessGuide
+        slug={connection.slug}
+        displayName={connection.display_name}
+        status={connection.status}
+        currentPhase={connection.current_phase}
+        checklist={clAgg}
+        hitls={hitls.map((h) => ({
+          gate_number: h.gate_number,
+          status: h.status,
+          notes: h.notes,
+          approver: h.approver,
+        }))}
+      />
 
       {/* HITL Gates */}
       <Card>

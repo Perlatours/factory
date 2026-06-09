@@ -34,3 +34,10 @@ tmp/
 # Archivos de referencia comprimidos (Archive.zip ya en repo, no nuevos)
 *.zip
 !Archive.zip
+
+# Doc bruta del proveedor (binarios grandes + posibles creds de test) — local, no a git
+pilots/**/inputs/doc/*
+!pilots/**/inputs/doc/.gitkeep
+
+# Backups locales de skills
+*.md.bak
