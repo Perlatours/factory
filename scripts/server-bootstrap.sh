@@ -7,7 +7,7 @@
 set -euo pipefail
 
 REPO_URL="${FACTORY_REPO_URL:-https://github.com/Perlatours/factory.git}"
-BRANCH="${1:-rehearsal/avoris-pull}"
+BRANCH="${1:-main}"
 DIR="${FACTORY_DIR:-$HOME/factory}"
 
 echo "▶ 1/5 Docker"

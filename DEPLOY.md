@@ -12,14 +12,14 @@ en local del server, el panel en local del server); las skills se ejecutan por S
 En el server:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Perlatours/factory/rehearsal/avoris-pull/scripts/server-bootstrap.sh -o bootstrap.sh
-bash bootstrap.sh rehearsal/avoris-pull
+curl -fsSL https://raw.githubusercontent.com/Perlatours/factory/main/scripts/server-bootstrap.sh -o bootstrap.sh
+bash bootstrap.sh main
 ```
 
 O si ya clonaste el repo:
 
 ```bash
-cd ~/factory && bash scripts/server-bootstrap.sh rehearsal/avoris-pull
+cd ~/factory && bash scripts/server-bootstrap.sh main
 ```
 
 El script: instala Docker (si falta) → clona/actualiza el repo → `docker compose up -d --build`
