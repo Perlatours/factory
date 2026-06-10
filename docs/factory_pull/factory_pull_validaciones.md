@@ -519,6 +519,13 @@ Recoge todos los items ✅ de las 9 capas en una única lista. Solo se mergea cu
 - [ ] **P1** respetada: estáticos del Inventory local
 - [ ] **P6** respetada: validación previa cualquier escritura PROD
 
+### 🚀 Deploy (TEST + PRO) — parte del DoD de implementación, no opcional
+- [ ] **TEST** (`deploy-all-apis-to-test*.yaml`, **ambos**): build + deploy jobs por API (avail/reser/statics) replicando el conector de referencia; `systemd-services/<conn>-<api>-api.service` + `scripts/configure-<conn>-<api>-production.sh`; `verify-deployment.needs` ampliado (+ `case` de puerto en v2)
+- [ ] **PRO** (`pro-build-and-push-image.yaml` + `pro-deploy-from-registry.yaml`): availability+reservation (**statics NO va a PRO**); compose `_scripts/prod-deploy/docker/connector/<conn>/{avail,reser}/docker-compose.yml` (host→8080) + entradas en options/BUILD_PATHS/SLN_NAMES/IMAGE_NAMES/PORTS/COMPOSE_PATHS/CONFIG_KEYS/env
+- [ ] **Puertos por bloque de proveedor (salto de 3: avail/reser/statics)** — siguiente bloque libre tras el último proveedor (el "+10" es de los listeners del ELB, no de estos workflows)
+- [ ] Workflows tocados **validados con `npx js-yaml`** (0 errores) y sin claves de job duplicadas
+- [ ] **Secrets creados en GitHub** (config, no repo): `CONFIG_TEST_<CONN>_{AVAILABILITY,RESERVATION,STATICS}` + `PRO_CONFIG_<CONN>_{AVAILABILITY,RESERVATION}` con el `appsettings.Production.json` de cada API
+
 ### 📊 Métrica DoD
 - [ ] Booking error rate < 4% durante 7 días tras go-live (métrica específica Pull)
 - [ ] 0 nuevos bugs en §6

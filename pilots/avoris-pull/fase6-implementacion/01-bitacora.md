@@ -14,6 +14,17 @@ _Referencia de criterios: `00-PROMPT-original.md`. Dudas/bloqueos formales en `0
 
 ## Log
 
+### 2026-06-10 — Config de deploy TEST + PRO
+- Completada la config de deploy del conector (último punto de F6), replicando el patrón de Hotelbeds.
+  **Puertos por bloque (salto de 3)**: TEST avail/reser/statics = 5022/5023/5024; PRO avail/reser = 5015/5016
+  (statics no se despliega a PRO). El "+10" era de los listeners del ELB, no de estos workflows.
+- TEST (ambos `deploy-all-apis-to-test*.yaml`): build+deploy jobs avoris avail/reser/statics + systemd units
+  + scripts `configure-avoris-*` + `verify-deployment.needs` (+ case de puerto en v2). PRO (`pro-*`): avail+reser
+  con compose `connector/avoris/{avail,reser}` + entradas en build/deploy-from-registry. YAML validado con js-yaml.
+- **Pendiente del owner (no en repo):** crear secrets `CONFIG_TEST_AVORIS_*` y `PRO_CONFIG_AVORIS_*`.
+- Trasladado al flujo factory para no olvidarlo en nuevos conectores: `factory-implement` (Paso 5) y
+  `factory_pull_validaciones.md` §11 (sección 🚀 Deploy).
+
 ### 2026-06-10 — Fix multi-room (post-validación PRO)
 - **Bug detectado al probar multi-room** (search 2 ocupaciones): `SearchRsMapper.MapRooms` asignaba
   `rate.pricing` (TOTAL de la opción) a **cada** room → `option.Price ≠ Σ rooms` y la `cancelPolicy`

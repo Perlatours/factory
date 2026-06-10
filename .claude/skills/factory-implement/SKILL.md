@@ -115,7 +115,28 @@ Recorre el **DoD §11** capa a capa. Mínimos no-negociables:
 4. **PRO (condicional, solo con `--pro` + creds):** APIs 1 y 3 con `Provider:UseMock=false` y
    `providerParameters` reales → llamadas correctas a destino real. Sin creds: documentar como bloqueado.
 
-## Paso 5 — Documentación de F6 (en `pilots/<slug>/fase6-implementacion/`)
+## Paso 5 — Config de deploy TEST + PRO (réplica del patrón del resto · ref. Hotelbeds)
+
+**No se considera F6 completa sin esto.** Se replica la huella del conector de referencia cambiando
+solo nombre/puerto/paths. **Puertos: bloque por proveedor (salto de 3: avail/reser/statics)** — mira el
+último proveedor y coge el siguiente bloque libre (TEST sigue la numeración secuencial systemd; PRO el
+host→8080). _(El "+10" es de los listeners del ELB, no de estos workflows.)_
+
+- **TEST — los dos `deploy-all-apis-to-test*.yaml`:** build + deploy jobs por API (copia de los del
+  conector de referencia; en v2 con `if: inputs.api == '<conn>-<api>-api'`, en v1 sin `if`),
+  `deployment/systemd-services/<conn>-<api>-api.service` (puerto), `deployment/scripts/configure-<conn>-<api>-production.sh`,
+  ampliar `verify-deployment.needs` y (v2) los `case` de puerto en verify/summary. Statics SÍ va a TEST.
+- **PRO — `pro-build-and-push-image.yaml` + `pro-deploy-from-registry.yaml`:** solo availability+reservation
+  (**statics NO se despliega a PRO**; su puerto queda reservado). Compose
+  `_scripts/prod-deploy/docker/connector/<conn>/{avail,reser}/docker-compose.yml` (host→8080), y entradas en
+  options/BUILD_PATHS/SLN_NAMES/IMAGE_NAMES/PORTS/COMPOSE_PATHS/CONFIG_KEYS/env (`PRO_CONFIG_<CONN>_*`).
+- **Validar** cada workflow tocado con `npx js-yaml <file>` (0 errores) y sin claves de job duplicadas.
+- **⚠️ Secrets (config en GitHub, NO en repo):** crear `CONFIG_TEST_<CONN>_{AVAILABILITY,RESERVATION,STATICS}`
+  (TEST) y `PRO_CONFIG_<CONN>_{AVAILABILITY,RESERVATION}` (PRO) con el `appsettings.Production.json` de cada
+  API. Sin ellos el deploy arranca pero la API queda sin config de producción → **dejarlo documentado como
+  acción pendiente del owner**.
+
+## Paso 6 — Documentación de F6 (en `pilots/<slug>/fase6-implementacion/`)
 
 - `00-PROMPT-original.md` — el prompt/criterios (verbatim si vino ad-hoc).
 - `01-bitacora.md` — log cronológico + checkboxes de objetivo.
@@ -130,5 +151,6 @@ Registra la acción en DB (`/factory-update <slug> ... --env DEV`) con el commit
 - **Conexión** y estado de F6.
 - **Qué se implementó** (operaciones, APIs, audit, mocks).
 - **Verificación**: build, ops contra mocks, audit local, PRO (o por qué bloqueado).
-- **DoD §11**: ítems cumplidos / pendientes (audit Capa 8 explícito).
+- **DoD §11**: ítems cumplidos / pendientes (audit Capa 8 y Deploy explícitos).
+- **Deploy**: jobs TEST+PRO añadidos (puertos del bloque) + **secrets pendientes de crear** por el owner.
 - **Siguiente**: F7 (E2E desde PerlaHub DEV) + Gate #3 (aprobar PR).
