@@ -512,6 +512,7 @@ Recoge todos los items ✅ de las 9 capas en una única lista. Solo se mergea cu
 - [ ] Payloads en S3/MinIO
 - [ ] Excepciones registradas con AuditType=17
 - [ ] **Verificado en local contra la Audit API** (`docker-compose.local.yml`: postgres+minio+audit-api), no solo "compila": `AuditConfigId=1` (OnlyMetadata→Postgres) y `AuditConfigId=0` (All→S3+Postgres)
+- [ ] **`AuditGatewayConfig:Url` en el `appsettings.json` de CADA API** (Availability/Reservation/Statics), no solo una — sin él el `AuditLogConsumerService` hace `new Uri(null)` al primer evento y el audit no se entrega (near-miss Avoris jun-2026: solo estaba en Availability → Reservation no registraba)
 
 ### 🗄️ Capa 9 — Cache
 - [ ] Tras alta: `POST /api/Hotel/SetCache` + `PUT /api/ClientCredential/{id}/applyConfig`

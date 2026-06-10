@@ -94,6 +94,8 @@ Recorre el **DoD §11** capa a capa. Mínimos no-negociables:
   AuditConfig + ProviderConnectionId) y lo pasa a `SendAsync(config, auditRq)`; añade header
   `AuditAuthorization` = `SystemUserToken`. Captura de `providerParameters`: `AuditConfigId`,
   `SystemUserToken`, `ProviderConnectionId`. **Patrón: `Hotelbeds/Operations/Common/Gateway.cs`.**
+  Añade `AuditGatewayConfig:Url` al `appsettings.json` de **CADA API** (Availability/Reservation/Statics),
+  no solo Availability — sin él el consumer hace `new Uri(null)` y el audit no se entrega.
 - **Estados, cancel policy (UTC/P5), refundable flag general, locator siempre presente** — según informe.
 
 ## Paso 4 — Verificación (obligatoria; no vale "compila")
