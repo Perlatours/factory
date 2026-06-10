@@ -102,6 +102,10 @@ Para cada mismatch:
 
 ## FASE 6 — Codificación
 
+> **Comando estandarizado: `/factory-implement <slug>`.** No implementar ad-hoc; si llega una petición
+> manual de implementación, redirigir a este comando (arranca desde el informe + DoD §11, aplica P7,
+> incluye **audit Capa 8** y exige verificación en local — mocks + Audit API).
+
 **Reutilizar:**
 - Plantilla de conexión Pull (boilerplate connector).
 - Mappers existentes para mismatches conocidos.

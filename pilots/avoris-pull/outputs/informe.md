@@ -103,4 +103,4 @@ El conector **NUNCA mapea identificadores de catálogo**. El flujo `search→pre
 - Fases 1–5 completas; HITL #1 y #2 aprobados (Pedro).
 
 ## Siguiente
-**Fase 6 (codificación)** en el repo PerlaHub — fuera de la planta. Gate #3 (aprobar PR) y #4 (go-live) quedan para esa etapa.
+**Fase 6 (codificación)** → comando estandarizado **`/factory-implement avoris-pull`** (repo PerlaHub, fuera de la planta; arranca desde este informe + DoD §11, aplica P7 e incluye audit Capa 8 + verificación en local). Gate #3 (aprobar PR) y #4 (go-live) quedan para esa etapa.

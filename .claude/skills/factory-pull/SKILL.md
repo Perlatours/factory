@@ -140,6 +140,9 @@ Si no → `STOP: "Faltan credenciales sandbox en pilots/<slug>/inputs/03-credent
    SQL
    ```
 4. **STOP en HITL #1.** F6 (codificación) y F7-8 (E2E + go-live) van **fuera de la planta** (repo PerlaHub).
+   En el informe, la sección "Siguiente" debe apuntar al comando estandarizado de F6:
+   **"Fase 6 → `/factory-implement <slug>`"** (no implementar ad-hoc; ese comando arranca desde el
+   informe + DoD §11 e incluye audit Capa 8 y la verificación en local).
 
 ---
 
