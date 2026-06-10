@@ -116,6 +116,10 @@ Recorre el **DoD §11** capa a capa. Mínimos no-negociables:
    - Confirma en el log del consumer `Successfully sent batch` y la fila en `bookingFlow.audit_*`.
 4. **PRO (condicional, solo con `--pro` + creds):** APIs 1 y 3 con `Provider:UseMock=false` y
    `providerParameters` reales → llamadas correctas a destino real. Sin creds: documentar como bloqueado.
+5. **Proyecto Test verde** (`dotnet test`): el conector **debe** tener `Test/` (molde del de referencia)
+   con, como mínimo: invariante **multi-room `option == Σ rooms`**, refundable por rate, cancel (tramos/UTC),
+   cableado P7, y `Gateway` (rutas reales + auth + **emisión de audit** con AuditType correcto). Sin tests,
+   el job `run-tests` del deploy falla (exit 1).
 
 ## Paso 5 — Config de deploy TEST + PRO (réplica del patrón del resto · ref. Hotelbeds)
 
@@ -128,6 +132,8 @@ host→8080). _(El "+10" es de los listeners del ELB, no de estos workflows.)_
   conector de referencia; en v2 con `if: inputs.api == '<conn>-<api>-api'`, en v1 sin `if`),
   `deployment/systemd-services/<conn>-<api>-api.service` (puerto), `deployment/scripts/configure-<conn>-<api>-production.sh`,
   ampliar `verify-deployment.needs` y (v2) los `case` de puerto en verify/summary. Statics SÍ va a TEST.
+  **`run-tests`: mapear `<conn>-*-api` → `Connectors/Accommodation/<Conn>/Test`** (v2: `case`; v1: paso
+  secuencial). Sin mapeo, el job falla con exit 1 ("No test mapping for ...").
 - **PRO — `pro-build-and-push-image.yaml` + `pro-deploy-from-registry.yaml`:** solo availability+reservation
   (**statics NO se despliega a PRO**; su puerto queda reservado). Compose
   `_scripts/prod-deploy/docker/connector/<conn>/{avail,reser}/docker-compose.yml` (host→8080), y entradas en

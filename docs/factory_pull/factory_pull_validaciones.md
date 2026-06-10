@@ -522,6 +522,7 @@ Recoge todos los items ✅ de las 9 capas en una única lista. Solo se mergea cu
 
 ### 🚀 Deploy (TEST + PRO) — parte del DoD de implementación, no opcional
 - [ ] **TEST** (`deploy-all-apis-to-test*.yaml`, **ambos**): build + deploy jobs por API (avail/reser/statics) replicando el conector de referencia; `systemd-services/<conn>-<api>-api.service` + `scripts/configure-<conn>-<api>-production.sh`; `verify-deployment.needs` ampliado (+ `case` de puerto en v2)
+- [ ] **Proyecto `Test/` + mapeo en `run-tests`**: el conector debe tener tests (molde del de referencia) y `<conn>-*-api` mapeado a `Connectors/Accommodation/<Conn>/Test` en **ambos** `deploy-all-*` (v2 `case`, v1 paso). Sin mapeo el job `run-tests` falla (exit 1 "No test mapping"). Mínimo cubierto: multi-room `option == Σ rooms`, refundable, cancel (tramos/UTC), P7, y Gateway (rutas+auth+audit)
 - [ ] **PRO** (`pro-build-and-push-image.yaml` + `pro-deploy-from-registry.yaml`): availability+reservation (**statics NO va a PRO**); compose `_scripts/prod-deploy/docker/connector/<conn>/{avail,reser}/docker-compose.yml` (host→8080) + entradas en options/BUILD_PATHS/SLN_NAMES/IMAGE_NAMES/PORTS/COMPOSE_PATHS/CONFIG_KEYS/env
 - [ ] **Puertos por bloque de proveedor (salto de 3: avail/reser/statics)** — siguiente bloque libre tras el último proveedor (el "+10" es de los listeners del ELB, no de estos workflows)
 - [ ] Workflows tocados **validados con `npx js-yaml`** (0 errores) y sin claves de job duplicadas

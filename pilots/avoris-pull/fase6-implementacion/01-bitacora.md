@@ -14,6 +14,15 @@ _Referencia de criterios: `00-PROMPT-original.md`. Dudas/bloqueos formales en `0
 
 ## Log
 
+### 2026-06-10 — Proyecto Test + mapeo run-tests
+- El job `run-tests` del deploy fallaba (exit 1, "No test mapping for avoris-availability-api") y el
+  conector **no tenía tests** (limitación anotada en F6). Resuelto: proyecto `Test/` (xunit+FluentAssertions+Moq,
+  molde Hotelbeds) + mapeo `avoris-*-api → Connectors/Accommodation/Avoris/Test` en ambos `deploy-all-*`.
+- **12 tests verdes**: SearchRsMapper (multi-room `option==Σrooms`/precio por-room, single, refundable por
+  rateID, cancel tramos+UTC, P7) y Gateway (rutas Swagger, Basic, AuditAuthorization, body camelCase, emisión
+  AddAuditRq con AuditType correcto, statics live lanza). Trasladado al flujo: `factory-implement` (Paso 4/5) y
+  `factory_pull_validaciones.md` §11.
+
 ### 2026-06-10 — Config de deploy TEST + PRO
 - Completada la config de deploy del conector (último punto de F6), replicando el patrón de Hotelbeds.
   **Puertos por bloque (salto de 3)**: TEST avail/reser/statics = 5022/5023/5024; PRO avail/reser = 5015/5016
