@@ -94,6 +94,7 @@ Lo que **cambia entre conexiones Pull** es solo el conector (parser + auth salie
 - [ ] Taxes incluidas o separadas → declarar en el response
 - [ ] Currency coincide con `hotel.CurrencyCode` (si no → warning `CURRENCY_MISMATCH`)
 - [ ] Si el conector tiene casos con `pvpRequired:true` → NO omitir `room.price` (replica bug PDES-113 si lo haces). Workaround validado: `room.price=0` + `pvpAmount=0`
+- [ ] **Multi-room: `option.Price == Σ rooms[].Price`.** Cada room lleva su **propio** precio (del objeto room del provider), **no** el total de la opción. Asignar el total del rate a cada room rompe la suma y desincroniza la `cancelPolicy` (que es de opción) → regresión Avoris jun-2026. **Verificar con un mock multi-room real** (el single-room no ejercita esta rama).
 
 **Errores**: HTTP 400 `INVALID_PRICE` · HTTP 422 `PRICE_EXCEEDS_THRESHOLD` · HTTP 422 `INVALID_PRICE_MODEL`.
 
@@ -345,6 +346,7 @@ Auditado 12-may. Cada fila = ítem ✅/❌ para tu nueva conexión.
 | Audit gap cred 43 | Cross | Logs prebook no rastreables hasta booking (TraceId discontinúo) | Investigating | [ ] TraceId consistente search→prebook→book→cancel en cada AuditType |
 | Expedia EPS IDs ≠ Content API IDs | Expedia | Mapping confunde IDs largos (Content `1064406…`) con cortos (EPS `17281`) | Fixed | [ ] Si conector tiene dos catálogos de IDs (content vs booking), declarar cuál se usa en mappings |
 | Expedia mealPlan add-ons | Expedia | Connector mezcla 5 régimenes reales con 13 add-ons de tarifa | **Open** (ticket Pedro) | [ ] Distinguir régimenes vs add-ons explícitamente en mapping |
+| Avoris multi-room price (jun-2026) | Avoris | `MapRooms` asignaba `rate.pricing` (total opción) a cada room → `option ≠ Σ rooms` y `cancelPolicy` desincronizada. No detectado porque el MockGateway servía un avail single-room fijo | Fixed (room usa `rooms[].pricing`; mock multi-room añadido) | [ ] Multi-room: `option.Price == Σ rooms[].Price`, precio por-room desde el objeto room; **probar con mock multi-room real**, no single-room |
 
 ---
 
@@ -484,6 +486,7 @@ Recoge todos los items ✅ de las 9 capas en una única lista. Solo se mergea cu
 - [ ] **P2** respetada: PVP no recibe markup
 - [ ] Currency consistente
 - [ ] No replica bug PDES-113 (`pvpRequired` con `room.price` omitido)
+- [ ] **Multi-room: `option.Price == Σ rooms[].Price`** (precio por-room desde el objeto room, no el total) — verificado con mock multi-room real
 
 ### 🚫 Capa 5 — Cancellation policy
 - [ ] Tramos con **importe** (`amount`) válidos — el adapter convierte % y noches

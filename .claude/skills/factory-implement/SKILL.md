@@ -100,6 +100,11 @@ Recorre el **DoD §11** capa a capa. Mínimos no-negociables:
 
 1. `dotnet build` de la solución → **0 errores** (si hay locks MSB3021/3027, para los procesos vivos).
 2. **Las 3 APIs levantan** y **completan TODAS las operaciones contra mocks** (HTTP 200). Tabla op→resultado.
+   - **Multi-room obligatorio** (el mock single-room no basta): el MockGateway debe servir un fixture
+     con ≥2 rooms y precio por-room. Verificar el invariante **`option.Price == Σ rooms[].Price`** y que
+     **cada room lleva su PROPIO precio** (no el total del rate), y la `cancelPolicy` con el total de opción
+     y sus tramos (gratis omitido / penalización con deadline UTC). Regresión Avoris jun-2026:
+     `MapRooms` asignaba `rate.pricing` (total) a cada room → opción ≠ Σ rooms y política "mal aplicada".
 3. **Audit en local** (no solo compila):
    ```bash
    docker compose -f docker-compose.local.yml up -d postgres minio audit-api   # en el repo PerlaHub

@@ -16,6 +16,7 @@ allowed-tools: [Bash, Read, Write]
 1. **Flujo COMPLETO en todos los casos.** Cada caso recorre `avail → prebook → book → cancel` de extremo a extremo, no solo hasta prebook. (Una validación parcial — p.ej. multi-room solo hasta prebook — deja sin probar el book real y se sobre-afirma "PASS".)
 2. **Siempre con tarifa REEMBOLSABLE 100%** (cancelación gratis): elegir un rate con cancelación gratuita en la fecha de la prueba para que `book`+`cancel` tengan **coste 0**. Nunca NRF para estos casos.
 3. **Registrar RQ y RS de cada paso** en ficheros separados (`<caso>-<step>-rq.json` / `<caso>-<step>-rs.json`). No basta el RS: muchas causas (index de travellers, paridad de token, ages-mismatch) solo se ven comparando RQ↔RS.
+4. **Multi-room/multi-occupancy: capturar una RS con el desglose REAL** (≥2 rooms con su **precio por-room** `rooms[].pricing` y, si es reembolsable, **varios tramos** de política). Es la RS que la implementación usará como fixture multi-room (el mock single-room **no ejercita** la rama multi-room → el bug de "precio de opción ≠ Σ rooms" / política mal aplicada pasa desapercibido; regresión Avoris jun-2026). **Invariante a comprobar en el RS canónico: `option.Price == Σ rooms[].Price`** y la `cancelPolicy` a nivel opción con el total correcto.
 
 ## 7 casos estándar Pull
 

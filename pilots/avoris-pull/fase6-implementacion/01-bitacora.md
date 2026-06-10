@@ -14,6 +14,19 @@ _Referencia de criterios: `00-PROMPT-original.md`. Dudas/bloqueos formales en `0
 
 ## Log
 
+### 2026-06-10 — Fix multi-room (post-validación PRO)
+- **Bug detectado al probar multi-room** (search 2 ocupaciones): `SearchRsMapper.MapRooms` asignaba
+  `rate.pricing` (TOTAL de la opción) a **cada** room → `option.Price ≠ Σ rooms` y la `cancelPolicy`
+  (de opción) quedaba desincronizada respecto a las rooms infladas. **Causa de fondo**: cada room debe
+  llevar su **propio** `rooms[i].pricing` (Avoris da option = Σ rooms; verificado en evidencia).
+- **No se detectó antes** porque el `MockGateway` servía un `avail.json` fijo single-room → la rama
+  multi-room nunca se ejercitaba.
+- **Fix**: `MapRooms` usa `rooms[i].pricing` (fallback reparto a partes iguales); la opción mantiene
+  `rate.pricing` como total. Verificado: NRF 930.14 = 2×465.07, refundable 1307.36 = 2×653.68, tramos OK.
+- **Anti-regresión**: añadido fixture `Operations/MockData/avail-multiroom.json` (datos reales) +
+  `MockGateway` lo sirve cuando la RQ trae >1 habitación. Trasladado al flujo factory:
+  `factory_pull_validaciones.md` (Capa 4 + §11 + bug histórico), `factory-mocktests` y `factory-implement`.
+
 ### 2026-06-09 — Setup y reconocimiento
 - Repo PerlaHub ya en rama **`feature/AvorisConnector`** (requisito rama dedicada ✅).
 - `Connectors/Accommodation/` contiene conectores de referencia: **Hotelbeds** (referencia mental), Expedia, Travelgate, Dome, PerlaPush. **No existe `Avoris/`** todavía.
