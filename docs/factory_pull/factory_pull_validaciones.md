@@ -147,6 +147,9 @@ Lo que **cambia entre conexiones Pull** es solo el conector (parser + auth salie
 - [ ] Referencias en `bookingFlow.audit_references` (TraceId + AuditType + ReferenceId + AssetId + ExceptionType)
 - [ ] Payload almacenado en S3/MinIO: `audit/{AuditType}/{guid}.json`
 - [ ] El conector emite Connector*Rq y Provider*Rq con TraceId consistente (no replicar audit gap cred 43)
+- [ ] **El `Gateway` del conector pasa un `AddAuditRq` al `HttpRequestBuilder.SendAsync(config, auditRq)` — NO `null`** (es lo que genera el `Provider*Rq`). Captura de `providerParameters`: `AuditConfigId`, `SystemUserToken`, `ProviderConnectionId`; `AuditType` por operación; header `AuditAuthorization` = `SystemUserToken`. **Patrón de referencia: `Connectors/Accommodation/Hotelbeds/Operations/Common/Gateway.cs`**
+
+> ⚠️ **El audit del provider lo emite el CONECTOR, no el Core** (mismo encuadre que P7 con el mapping). El Core/`HttpRequestBuilder` solo persiste lo que reciba; si el `Gateway` llama `SendAsync(config, null)` **no se registra nada del provider** y el fallo es silencioso (la API levanta y responde 200 igual). Trampa real: en Avoris (fase 6, jun-2026) el `Gateway` se entregó con `auditRq = null` y el gap solo se detectó al probar el registro en local. **Verificar emisión real, no solo que "compila"**.
 
 **`AuditType` enum REAL** (18 valores, 0-17, en `Utils/ModelDomain/Audit/AuditType.cs` — auditado 12-may; el doc previo decía "20+", error):
 | ID | Tipo | Cuándo |
@@ -501,9 +504,11 @@ Recoge todos los items ✅ de las 9 capas en una única lista. Solo se mergea cu
 
 ### 📝 Capa 8 — Audit
 - [ ] Emite `ClientSearchRq`, `ConnectorSearchRq`, `ProviderSearchRq` (idem prebook/book/cancel)
+- [ ] **`Gateway` del conector pasa `AddAuditRq` (no `null`) a `SendAsync` — patrón Hotelbeds `Gateway.cs`** (sin esto el `Provider*Rq` no se registra y falla en silencio)
 - [ ] TraceId UUID por flujo
 - [ ] Payloads en S3/MinIO
 - [ ] Excepciones registradas con AuditType=17
+- [ ] **Verificado en local contra la Audit API** (`docker-compose.local.yml`: postgres+minio+audit-api), no solo "compila": `AuditConfigId=1` (OnlyMetadata→Postgres) y `AuditConfigId=0` (All→S3+Postgres)
 
 ### 🗄️ Capa 9 — Cache
 - [ ] Tras alta: `POST /api/Hotel/SetCache` + `PUT /api/ClientCredential/{id}/applyConfig`

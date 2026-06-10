@@ -305,6 +305,7 @@ Si cualquiera de estas → para y escala:
 - [ ] Tienes la doc API oficial del proveedor (URL, versión, lenguaje)
 - [ ] Conoces el equivalente más cercano ya conectado: Dome / Travelgate / Hotelbeds / Expedia / PerlaPush / PushInternal
 - [ ] Has revisado [factory_pull_validaciones.md §11](./factory_pull_validaciones.md) (47 ítems Definition of Done técnico)
+- [ ] **Audit es parte del DoD, no opcional**: el `Gateway` del conector debe emitir `AddAuditRq` (pasar `auditRq`, no `null`, a `SendAsync`) igual que `Hotelbeds/Operations/Common/Gateway.cs`, y verificarse contra la Audit API local (§ Capa 8). El audit del provider lo emite el **conector**, no el Core — si no se cablea, falla en silencio (API levanta y da 200 igual)
 - [ ] Avoris confirmado como piloto Pull → correcciones sobre Avoris → mejoras Skill v1
 - [ ] Has marcado bugs históricos a no repetir: TGX empty locator, Dome price-changed, WHL pvpRequired, Travel Code BY, Expedia mealPlan add-ons, audit gap TraceId
 
