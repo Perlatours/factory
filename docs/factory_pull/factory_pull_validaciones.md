@@ -512,7 +512,7 @@ Recoge todos los items ✅ de las 9 capas en una única lista. Solo se mergea cu
 - [ ] Payloads en S3/MinIO
 - [ ] Excepciones registradas con AuditType=17
 - [ ] **Verificado en local contra la Audit API** (`docker-compose.local.yml`: postgres+minio+audit-api), no solo "compila": `AuditConfigId=1` (OnlyMetadata→Postgres) y `AuditConfigId=0` (All→S3+Postgres)
-- [ ] **`AuditGatewayConfig:Url` en el `appsettings.json` de CADA API** (Availability/Reservation/Statics), no solo una — sin él el `AuditLogConsumerService` hace `new Uri(null)` al primer evento y el audit no se entrega (near-miss Avoris jun-2026: solo estaba en Availability → Reservation no registraba)
+- [ ] **`AuditGatewayConfig:Url` en el `appsettings.json` de CADA API** (Availability y Reservation), no solo una — sin él el `AuditLogConsumerService` hace `new Uri(null)` al primer evento y el audit no se entrega (near-miss Avoris jun-2026: solo estaba en Availability → Reservation no registraba)
 
 ### 🗄️ Capa 9 — Cache
 - [ ] Tras alta: `POST /api/Hotel/SetCache` + `PUT /api/ClientCredential/{id}/applyConfig`
@@ -521,10 +521,10 @@ Recoge todos los items ✅ de las 9 capas en una única lista. Solo se mergea cu
 - [ ] **P6** respetada: validación previa cualquier escritura PROD
 
 ### 🚀 Deploy (TEST + PRO) — parte del DoD de implementación, no opcional
-- [ ] **TEST** (`deploy-all-apis-to-test*.yaml`, **ambos**): build + deploy jobs por API (avail/reser/statics) replicando el conector de referencia; `systemd-services/<conn>-<api>-api.service` + `scripts/configure-<conn>-<api>-production.sh`; `verify-deployment.needs` ampliado (+ `case` de puerto en v2)
+- [ ] **TEST** (`deploy-all-apis-to-test*.yaml`, **ambos**): build + deploy jobs para availability y reservation (**sin StaticsApi, P8**) replicando el conector de referencia; `systemd-services/<conn>-<api>-api.service` + `scripts/configure-<conn>-<api>-production.sh`; `verify-deployment.needs` ampliado (+ `case` de puerto en v2)
 - [ ] **Proyecto `Test/` + mapeo en `run-tests`**: el conector debe tener tests (molde del de referencia) y `<conn>-*-api` mapeado a `Connectors/Accommodation/<Conn>/Test` en **ambos** `deploy-all-*` (v2 `case`, v1 paso). Sin mapeo el job `run-tests` falla (exit 1 "No test mapping"). Mínimo cubierto: multi-room `option == Σ rooms`, refundable, cancel (tramos/UTC), P7, y Gateway (rutas+auth+audit)
 - [ ] **PRO** (`pro-build-and-push-image.yaml` + `pro-deploy-from-registry.yaml`): availability+reservation (**statics NO va a PRO**); compose `_scripts/prod-deploy/docker/connector/<conn>/{avail,reser}/docker-compose.yml` (host→8080) + entradas en options/BUILD_PATHS/SLN_NAMES/IMAGE_NAMES/PORTS/COMPOSE_PATHS/CONFIG_KEYS/env
-- [ ] **Puertos por bloque de proveedor (salto de 3: avail/reser/statics)** — siguiente bloque libre tras el último proveedor (el "+10" es de los listeners del ELB, no de estos workflows)
+- [ ] **Puertos por bloque de proveedor (2: avail/reser; statics fuera por P8)** — siguiente bloque libre tras el último proveedor (el "+10" es de los listeners del ELB, no de estos workflows)
 - [ ] Workflows tocados **validados con `npx js-yaml`** (0 errores) y sin claves de job duplicadas
 - [ ] **Secrets creados en GitHub** (config, no repo): `CONFIG_TEST_<CONN>_{AVAILABILITY,RESERVATION,STATICS}` + `PRO_CONFIG_<CONN>_{AVAILABILITY,RESERVATION}` con el `appsettings.Production.json` de cada API
 

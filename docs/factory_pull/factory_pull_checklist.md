@@ -32,7 +32,7 @@ PerlaHub define 6 interfaces canónicas (`ICoreConnector*`). El proveedor debe c
 | `Book` | Confirma reserva + devuelve locator | ✅ | sync / async + polling? |
 | `Cancel` | Anula reserva | ✅ | con locator? con rateKey? |
 | `GetBookings` | Consulta histórico/estado de reservas | Recomendada | per locator / por rango fechas / batch? |
-| `Static`: hotels / rooms / mealPlans / amenities / chains / languages | Carga catálogos (P1) | Recomendada | dump completo / incremental / per id? |
+| `Static`: hotels / rooms / mealPlans / amenities / chains / languages | Carga catálogos (P1) — **vía proceso de sync de contenidos externo, NO en el conector (P8)** | N/A en el conector | dump completo / incremental / per id? (lo consume el sync, no el conector) |
 
 🟢 / 🟡 / 🔴 por cada fila.
 

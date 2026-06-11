@@ -73,13 +73,19 @@ SQL
 <Conector>/
   Connectors.Accommodation.<Conector>.sln
   Dto/          (modelos provider: requests + responses)
-  Operations/   (Search·Prebook·Book·Cancel·GetBookings·Static + Common[Gateway,MockGateway,tokens,DI])
-                + MockData/ (mocks de factory copiados; statics sintéticos si el provider no los expone)
+  Operations/   (Search·Prebook·Book·Cancel·GetBookings + Common[Gateway,MockGateway,tokens,DI])
+                + MockData/ (mocks de factory copiados)
   AvailabilityApi/ (API 1 · Search+Prebook)
   ReservationApi/  (API 2 · Book+Cancel+GetBookings)
-  StaticsApi/      (API 3 · catálogos)
   Test/            (al menos humo por operación)
 ```
+
+> **🔴 Statics fuera del conector (P8).** Los estáticos/catálogos se gestionan por un **proceso de
+> sincronización de contenidos independiente** del conector (flujo de reservas integrado en PerlaHub).
+> El conector **NO implementa StaticsApi** ni operaciones `IGetHotels/RoomTypes/MealPlans/RoomAmenities`
+> → solo **2 APIs** (Availability + Reservation). _Revisar al inicio: si por algún motivo este conector
+> sí necesitara statics, es excepción a documentar, no el caso por defecto._ Conectores antiguos
+> (Hotelbeds/Dome/…) conservan su StaticsApi por legado; los nuevos no la crean.
 
 ## Paso 3 — Implementación guiada por el DoD (cada ítem se cumple o se justifica)
 
@@ -94,14 +100,14 @@ Recorre el **DoD §11** capa a capa. Mínimos no-negociables:
   AuditConfig + ProviderConnectionId) y lo pasa a `SendAsync(config, auditRq)`; añade header
   `AuditAuthorization` = `SystemUserToken`. Captura de `providerParameters`: `AuditConfigId`,
   `SystemUserToken`, `ProviderConnectionId`. **Patrón: `Hotelbeds/Operations/Common/Gateway.cs`.**
-  Añade `AuditGatewayConfig:Url` al `appsettings.json` de **CADA API** (Availability/Reservation/Statics),
+  Añade `AuditGatewayConfig:Url` al `appsettings.json` de **CADA API** (Availability y Reservation),
   no solo Availability — sin él el consumer hace `new Uri(null)` y el audit no se entrega.
 - **Estados, cancel policy (UTC/P5), refundable flag general, locator siempre presente** — según informe.
 
 ## Paso 4 — Verificación (obligatoria; no vale "compila")
 
 1. `dotnet build` de la solución → **0 errores** (si hay locks MSB3021/3027, para los procesos vivos).
-2. **Las 3 APIs levantan** y **completan TODAS las operaciones contra mocks** (HTTP 200). Tabla op→resultado.
+2. **Las 2 APIs levantan** y **completan TODAS las operaciones contra mocks** (HTTP 200). Tabla op→resultado.
    - **Multi-room obligatorio** (el mock single-room no basta): el MockGateway debe servir un fixture
      con ≥2 rooms y precio por-room. Verificar el invariante **`option.Price == Σ rooms[].Price`** y que
      **cada room lleva su PROPIO precio** (no el total del rate), y la `cancelPolicy` con el total de opción
@@ -114,8 +120,8 @@ Recorre el **DoD §11** capa a capa. Mínimos no-negociables:
    - Arranca API 1 live, añade a `providerParameters`: `AuditConfigId` + `SystemUserToken` (JWT Bearer).
    - `AuditConfigId=1` (OnlyMetadata → Postgres) primero; luego `AuditConfigId=0` (All → S3/MinIO + Postgres).
    - Confirma en el log del consumer `Successfully sent batch` y la fila en `bookingFlow.audit_*`.
-4. **PRO (condicional, solo con `--pro` + creds):** APIs 1 y 3 con `Provider:UseMock=false` y
-   `providerParameters` reales → llamadas correctas a destino real. Sin creds: documentar como bloqueado.
+4. **PRO (condicional, solo con `--pro` + creds):** API 1 (y API 2 si procede) con `Provider:UseMock=false`
+   y `providerParameters` reales → llamadas correctas a destino real. Sin creds: documentar como bloqueado.
 5. **Proyecto Test verde** (`dotnet test`): el conector **debe** tener `Test/` (molde del de referencia)
    con, como mínimo: invariante **multi-room `option == Σ rooms`**, refundable por rate, cancel (tramos/UTC),
    cableado P7, y `Gateway` (rutas reales + auth + **emisión de audit** con AuditType correcto). Sin tests,
@@ -124,19 +130,19 @@ Recorre el **DoD §11** capa a capa. Mínimos no-negociables:
 ## Paso 5 — Config de deploy TEST + PRO (réplica del patrón del resto · ref. Hotelbeds)
 
 **No se considera F6 completa sin esto.** Se replica la huella del conector de referencia cambiando
-solo nombre/puerto/paths. **Puertos: bloque por proveedor (salto de 3: avail/reser/statics)** — mira el
-último proveedor y coge el siguiente bloque libre (TEST sigue la numeración secuencial systemd; PRO el
-host→8080). _(El "+10" es de los listeners del ELB, no de estos workflows.)_
+solo nombre/puerto/paths. Como el conector es de **2 APIs** (avail+reser; statics fuera por **P8**),
+reserva **un bloque de 2 puertos por proveedor** (TEST sigue la numeración secuencial systemd; PRO el
+host→8080), coherente con el siguiente bloque libre tras el último proveedor. _(El "+10" es de los
+listeners del ELB, no de estos workflows.)_
 
-- **TEST — los dos `deploy-all-apis-to-test*.yaml`:** build + deploy jobs por API (copia de los del
-  conector de referencia; en v2 con `if: inputs.api == '<conn>-<api>-api'`, en v1 sin `if`),
+- **TEST — los dos `deploy-all-apis-to-test*.yaml`:** build + deploy jobs para availability y reservation
+  (copia de los del conector de referencia; en v2 con `if: inputs.api == '<conn>-<api>-api'`, en v1 sin `if`),
   `deployment/systemd-services/<conn>-<api>-api.service` (puerto), `deployment/scripts/configure-<conn>-<api>-production.sh`,
-  ampliar `verify-deployment.needs` y (v2) los `case` de puerto en verify/summary. Statics SÍ va a TEST.
+  ampliar `verify-deployment.needs` y (v2) los `case` de puerto en verify/summary. **Sin StaticsApi (P8).**
   **`run-tests`: mapear `<conn>-*-api` → `Connectors/Accommodation/<Conn>/Test`** (v2: `case`; v1: paso
   secuencial). Sin mapeo, el job falla con exit 1 ("No test mapping for ...").
-- **PRO — `pro-build-and-push-image.yaml` + `pro-deploy-from-registry.yaml`:** solo availability+reservation
-  (**statics NO se despliega a PRO**; su puerto queda reservado). Compose
-  `_scripts/prod-deploy/docker/connector/<conn>/{avail,reser}/docker-compose.yml` (host→8080), y entradas en
+- **PRO — `pro-build-and-push-image.yaml` + `pro-deploy-from-registry.yaml`:** availability+reservation.
+  Compose `_scripts/prod-deploy/docker/connector/<conn>/{avail,reser}/docker-compose.yml` (host→8080), y entradas en
   options/BUILD_PATHS/SLN_NAMES/IMAGE_NAMES/PORTS/COMPOSE_PATHS/CONFIG_KEYS/env (`PRO_CONFIG_<CONN>_*`).
 - **Validar** cada workflow tocado con `npx js-yaml <file>` (0 errores) y sin claves de job duplicadas.
 - **⚠️ Secrets (config en GitHub, NO en repo):** crear `CONFIG_TEST_<CONN>_{AVAILABILITY,RESERVATION,STATICS}`

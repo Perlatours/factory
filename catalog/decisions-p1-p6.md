@@ -10,6 +10,8 @@
 - **P6** — NO escribir en PerlaHub PROD sin validación previa (lista → validación → ejecución).
 - **P7** — El conector **NUNCA mapea identificadores de catálogo** (hotel/room/meal/amenity). El flujo solo **CABLEA**: copia el id del proveedor al campo canónico tal cual (`hotelCode→HotelId`, `rooms[].id→RoomTypeId`, `meal.id→MealPlanId`). El mapeo `id_provider→id_PH` es tarea **EXTERNA** del servicio de Mapping de PerlaHub, alimentado por el Inventory local + los estáticos consultables del proveedor (`IGetHotels/RoomTypes/MealPlans/RoomAmenities`). Extiende P1 y P4. [avoris-pull 2026-06-09]
 
-## Decisiones P7+ (espacio para crecer)
+- **P8** — **Estáticos/catálogos fuera del conector.** Los estáticos se gestionan por un **proceso de sincronización de contenidos independiente** del conector (flujo de reservas integrado en PerlaHub), no por el conector. Consecuencia: el conector **NO implementa StaticsApi** ni operaciones `IGetHotels/RoomTypes/MealPlans/RoomAmenities` → un conector nuevo es de **2 APIs** (Availability + Reservation). **Refina P7**: el Mapping ya NO se alimenta de "los estáticos consultables del proveedor" vía el conector, sino del Inventory local + ese proceso de sync externo. Conectores antiguos (Hotelbeds/Dome/Travelgate/Expedia) conservan su StaticsApi por legado; los nuevos no la crean. [avoris-pull 2026-06-11]
 
-_(vacío — se llena con cada `factory-close` Pull)_
+## Decisiones P9+ (espacio para crecer)
+
+_(se llena con cada `factory-close` Pull)_

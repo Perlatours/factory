@@ -14,6 +14,15 @@ _Referencia de criterios: `00-PROMPT-original.md`. Dudas/bloqueos formales en `0
 
 ## Log
 
+### 2026-06-11 — Decisión P8: estáticos por sync externo (StaticsApi fuera del conector)
+- Decidido gestionar estáticos por un **proceso de sincronización de contenidos independiente** del conector
+  (no por el conector). Registrado como **P8** (refina P7) en `catalog/decisions-p1-p6.md`. Conector nuevo = **2 APIs**.
+- Flujo actualizado para futuros conectores: `factory-implement` (estructura 2 APIs + nota P8; deploy/tests sin statics),
+  `factory_pull_validaciones.md` §11 (deploy y audit a 2 APIs) y `factory_pull_checklist.md` (fila Static = N/A en conector).
+- **Avoris (decisión Pedro 2026-06-11): NO tocar ahora.** Su `StaticsApi` + `Operations/Static.cs` + mocks de statics
+  + systemd/configure/jobs de statics + mapeo statics en run-tests quedan como **pendiente de limpieza** (cuando se
+  retire, conector pasa a 2 APIs). No bloquea el flujo de reservas (statics ya no depende del conector).
+
 ### 2026-06-10 — Proyecto Test + mapeo run-tests
 - El job `run-tests` del deploy fallaba (exit 1, "No test mapping for avoris-availability-api") y el
   conector **no tenía tests** (limitación anotada en F6). Resuelto: proyecto `Test/` (xunit+FluentAssertions+Moq,
